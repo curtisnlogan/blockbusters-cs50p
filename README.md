@@ -27,7 +27,7 @@
 
 The project stores data in JSON using three main entities:
 
-- `games`: id, title, platform, total copies, replacement cost, new release flag
+- `games`: id, title, platform, release date, total copies, replacement cost, new release flag
 - `members`: id, name, date of birth, address, payment method, account status
 - `rental_logs`: links members to games and stores: rental id, membership id, rental id, rental date, due date, late fees, replacement charges, and return status
 
