@@ -33,3 +33,7 @@ The project stores data in JSON using three main entities:
 
 In-terms of the overall relationships between my date, a member can have many rental logs, and a game can appear in many rental logs over time. The rental log system is the bridge which provides the many-to-many relationship between members and all of their rented games.
 
+## Design Decisions
+
+- The program loads inventory, memberships, and rental logs at startup for simpler orchestration. Loading by domain was considered for stricter seperation, but deferred because it adds complexity with little benefit for the scope of this CS50 CLI project.
+
