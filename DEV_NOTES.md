@@ -12,11 +12,15 @@
 
 ### domain constraints
 
-### invariants
+#### invariants
 
 - replacement cost is dictated by head office, cannot be adjusted by individual stores
 - a customer must only ever have one address and payment method stored at any one time
 - a membership accounts status must be automatically handled by the program, not manually
+- each game rented must be considered a seperate record (even if the customer checked out multiple rentals at one time)
+- if a customers account is blocked, they may not take any actions asides from paying fees
+- account unblocking is allowed only when no late fees or replacement charges are tied to it
+- late fees cannot accumlate on rental logs were a replacement charge is active
 
 #### management of the games inventory
 
@@ -25,109 +29,109 @@
   - employees must not be able to manually reduce the copy count
 - an employee must not be able to edit a games database id
 
-### the creation of membership accounts
+#### the creation of membership accounts
 
 - a customer must be able to create a new membership account
 - a membership account must store a full name, dob, address, valid payment method plus account status flag
 - only adults 18+ can create accounts
-<!-- TODO: review from here -->
-### customers renting games
 
-- each game you rented must be considered a seperate record — has its own rental log (irregardless if the customer checked out multiple rentals at one time)
-- a member must not be able to actively rent multiple copies of one game title
-- a member can not have more than 3 active rentals at one time
-- a customer cannot rent anything if blocked or if outstanding charges exist
+#### customers renting games
+
+- a member must not be able to actively rent more than one copy of a game title
+- a member can not have more than 3 total active rentals at any one time
 - a game must always be due for return 7 days after its rented
-- an employee must provide valid `game_id` values
-  - reject invalid game ids
-  - reject unavailable games
-  - available copies are calculated from inventory and active rental logs
-- a potential renter must be informed in verbally, that a `$40` replacement fee is incurred if the game is more than 14 days overdue
+- a rental log can only be created after game availability is confirmed
+- a potential renter must be informed verbally, that a `$40` replacement fee will be incurred if the game is more than 14 days overdue
 
-### customers returning games/paying fees & the penalities stemming from late or lost games
+#### management of late and replacement fees
 
-- late fees are to be calculated in dollars per day as soon as it is overdue
-  - `$1` per day for non-new releases
-  - `$2` per day for new releases
-  - late fees do not continue accumulating after a replacement charge has been paid
-- a replacement charge is incurred when a rental is 14 days or more overdue
-  - late fees are wiped
-  - the item must be flagged as "lost"
-  - this must be reflected as a loss from the games inventory
-- associated membership accounts must remain blocked whilst unpaid late fees or unpaid replacement charges exist
-- late fees can only be paid in full, before any further rentals
-- replacement charges must be paid in full, before any further rentals
-- account unblocking is allowed only when all linked late fees are `$0` and all replacement charges are processed
+- late fees are to be calculated at $2 per day as soon as the overdue date is hit
+- a replacement charge of $40 must be incurred when any rental is 14 days or more overdue
+  - late fees are wiped and stay at 0
+  - the item must be flagged as "lost" and this loss must automatially be reflected in the stock of the games inventory
+
+#### customers returning games
+
+- returned games are to be flagged as returned, with the games inventory automatically updating to reflect this
 - an employee must always check the condition of any returned game
-  - if damaged beyond repair, a replacement charge must be paid by that member
+  - if damaged beyond repair, a replacement charge must incurred on the associated rental log
 
-## technical constraints
+#### customers paying late and/or replacement fees
 
-### CS50P requirements
+- late fees and replacement charges can only be paid in full, for all rental logs were they are being incurred by said customer
+
+### technical constraints
+
+#### CS50P
 
 - written in Python only
-- include `main` and at least 3 additional functions at the same indentation level as `main`
-- at least 3 functions (all in `project.py`) must have unit tests with `pytest`
-- `main` must be called in a file called `project.py`
+- includes a `main` func (`project.py`) and at least 3 additional functions at the same indentation level as `main`
+- at least 3 functions (all in `project.py`) must have unit tests through `pytest` (in `test_project.py`)
 - all tests in `test_project.py` (each named `test_funcname`)
 - pip libraries are allowed
   - all pip libraries used must be listed in `requirements.txt`
-- "How to Submit" section on eDx to be completed, after project is finalized
-- README "Your README.md file should be minimally multiple paragraphs in length, and should explain what your project is, what each of the files you wrote for the project contains and does, and if you debated certain design choices, explaining why you made them. Ensure you allocate sufficient time and energy to writing a README.md that documents your project thoroughly. Be proud of it! A README.md in the neighborhood of 500 words is likely to be sufficient for describing your project and all aspects of its functionality. If unable to reach that threshold, that probably means your project is insufficiently complex"
+- "How to Submit" section on final proj edx page to be completed, after project is finalized
+- README
+  - what each of the files you wrote for the project contains and does
+  - if you debated certain design choices, explaining why you made them
+  - A README.md in the neighborhood of 500 words is likely to be sufficient for describing your project and all aspects of its functionality. If unable to reach that threshold, that probably means your project is insufficiently complex
 
+#### self-imposed
+
+-  Several real-world concerns are intentionally out of scope
+   - Authentication and authorisation are omitted — the system assumes a single trusted employee operator.
+   - Concurrency is not handled; JSON storage is safe only because one process runs at a time.
+   - Audit logging, security hardening are all deferred.
+   - These are standard requirements in production systems at scale but would add significant complexity with no benefit at this for a CS50P final project.
+- OOP - industry standard to this problem
+- JSON storage for persistence - time-constraint no database
+- does not need to account for 'race conditions', were two employees edit the same JSON at the same time - out of scope for this project, complexity
+- CLI only - time-constraint, GUI mandatory in real-world
+- must use `rich` to improve CLI presentation - compensate for lack of GUI
+- must use `pyfiglet` to generate a retro-looking Blockbuster-style logo for the main menu - branding matters
 
 ## design
 
-### domain model
+### structure
 
-### game inventory
+#### domain model
 
-- `game_id` - id: automatically generated, not editable
-- `title`
-- `platform`
-- `release_date`
-- `total_copies`
+######  game inventory
+
+- `game_id` - id: automatically generated
+- `title` - optional
+- `platform` - optional
+- `total_copies` - default value: 1
 - `replacement_cost` - default value: $40
 
-### membership accounts
+##### membership accounts
 
 - `membership_id` - id: auto generated
-- `full_name`
-- `date_of_birth`
-- `address` - 1 max
-- `payment_method` - 1 max
-- `account_status`
+- `full_name` - 20 char limit
+- `date_of_birth` - format: 31/05/23
+- `address`
+- `payment_method`
+- `account_status` - default: active
 
-### rental logs
+##### rental logs
 
 - `rental_id` - id: auto generated
-- `membership_id`
-- `game_id`
+- `membership_id` - from membership accounts
+- `game_id` - from game inventory
 - `date_rented` - always current date
-- `due_for_return` - always 7 days after `date_rented`
-- `late_fees_total`
-- `replacement_charge`
-- `replacement_charge_processed`
-- `return_status`
+- `due_for_return` - always 7 days after rented date
+- `late_fees_total` - default: $0
+- `replacement_charge` - default: false
+- `return_status` - default: rented
 
-### relationships
+##### relationships
 
-- A member can have many rental logs.
+- A member can have many rental logs over time.
 - A game can appear in many rental logs over time.
-- Rental logs bridge the many-to-many relationship between members and the games they rent.
+- Rental logs as a "join table" bridges that many-to-many relationship between members and the games that they rent.
+<!-- TODO: review from here -->
 
-## system design
-
-### - use an OOP approach to practice common industry-style organization
-- use JSON storage for persistence
-- Startup reconciliation must be idempotent, so repeated restarts do not keep applying the same correction more than once.
-- CLI only
-- testing focuses on essential core business rules rather than exhaustive coverage
-- include one integration test covering the core business flow
-- use `rich` to improve CLI presentation
-- use `pyfiglet` to generate a retro-looking Blockbuster-style logo for the main menu
-
-### logical structure
+### application structure
 
 - `main.py`
   - program entry point and orchestrator
@@ -167,10 +171,9 @@
    1.3 normalize records lightly, e.g. trim whitespace
    1.4 store the validated data in shared in-memory collections
 2. run startup reconciliation through `reconciliation.py` and persist any changes to JSON
-   2.1 reconcile `is_new_release` for all games based on `release_date`
    2.2 reconcile every rental log whose `return_status` is `rented`
    2.2.1 if a rental is overdue by 14 days or more, set `replacement_charge` to `true`, reset `late_fees_total` to `$0`, set `return_status` to `lost`, and deduct `1` from the linked game's `total_copies`
-   2.2.2 if today is past `due_for_return` and `replacement_charge` is not flagged, recalculate `late_fees_total` at `$1` per overdue day for old releases or `$2` for new releases
+   2.2.2 if today is past `due_for_return` and `replacement_charge` is not flagged, recalculate `late_fees_total` at `$1` per overdue day for old releases
    2.3 reconcile each member's `account_status` from linked rental logs
    2.3.1 keep the account `blocked` if any linked `replacement_charge` is `true` and `replacement_charge_processed` is `false`
    2.3.2 otherwise keep the account `blocked` if any linked `late_fees_total > 0` exists
@@ -193,14 +196,13 @@
 
 ### add new game to inventory
 
-1. employee enters title, platform, release date, and total copies
+1. employee enters title, platform and total copies
    1.1 normalize employee input lightly, e.g. trim whitespace
    1.2 reject missing or invalid fields
    1.3 reject duplicate title + platform combination
    1.4 reject non-integer copy count
 2. generate and persist the new game record
    2.1 generate a unique `game_id`
-   2.2 derive `is_new_release` from `release_date`
    2.3 default `replacement_cost` to `$40`
    2.4 append the new record in memory and persist to JSON
 
@@ -242,7 +244,7 @@
    2.1 generate a unique `rental_id`
    2.2 set `membership_id` and `game_id` from employee input
    2.3 set `date_rented` to today's date
-   2.4 set `due_for_return` to 7 days after today's date, or 2 days for new releases
+   2.4 set `due_for_return` to 7 days after today's date
    2.5 default `late_fees_total` to `$0`
    2.6 default `replacement_charge` to `false`
    2.7 default `replacement_charge_processed` to `false`
