@@ -8,111 +8,58 @@
 - Customers create/update their membership, rent/return games and/or pay charges through interfacing with an employee that is using this program.
 - Keep the scope limited to core game rental operations rather than detailed historical accuracy.
 
-<!-- TODO: review from here 
-Looking at all six domain constraint sections for field-level rules embedded in workflow context:
+## constraints
 
-  managing game inventory
-  - game_id is automatically generated — field default buried under the "add game" workflow bullet
-  - replacement_cost defaults to $40 — same
-  - game_id is non-editable — field constraint buried under "increase copy count" workflow bullet
+### domain constraints
 
-  managing membership accounts
-  - membership_id is automatically generated — field default buried under "create account" workflow
-  - a customer has exactly one address and one payment method stored at a time — field cardinality rule buried under "update account" workflow
+### invariants
 
-  renting games (worst offender)
-  - rental_id is automatically generated for each rental log — floats as a top-level bullet alongside behavioral checks
-  - date_rented always equals today's date — same 
-  - due_for_return is 7 days after date_rented — same
-  
-  overdue rentals and charges
-  - The sub-bullets under replacement charge (set replacement_charge to true, reset late_fees_total to $0, set return_status to lost, deduct 1 from total_copies) are field mutations
-  described inline with the trigger condition
+- replacement cost is dictated by head office, cannot be adjusted by individual stores
+- a customer must only ever have one address and payment method stored at any one time
+- a membership accounts status must be automatically handled by the program, not manually
 
-  paying charges
-  - paid late fees are reset to $0 — field mutation mixed into payment workflow
-  - set replacement_charge_processed to true — same
+#### management of the games inventory
 
-  returning games
-  - return_status becomes returned — field mutation as top-level workflow bullet
+- an employee must be able to add new titles
+- an employee must be able to increase the copy count of an a non new title
+  - employees must not be able to manually reduce the copy count
+- an employee must not be able to edit a games database id
 
-  The renting games section has the most noticeable problem because those three field-default bullets have no parent workflow bullet — they just float among the behavioral rules.
--->
+### the creation of membership accounts
 
-## domain constraints
+- a customer must be able to create a new membership account
+- a membership account must store a full name, dob, address, valid payment method plus account status flag
+- only adults 18+ can create accounts
+<!-- TODO: review from here -->
+### customers renting games
 
-### managing game inventory
-
-- an employee can add entirely new games to the games inventory
-  - reject the addition if the same title + platform combination already exists
-  - `game_id` is automatically generated
-  - `replacement_cost` defaults to `$40`
-- an employee can increase the copy count of an existing game
-  - reject attempts to reduce copy count
-  - reject attempts to increase copy count above 99
-  - reject non-integer copy counts
-  - `game_id` is non-editable
-- `is_new_release` is managed automatically
-  - revoked if more than 30 days have passed since `release_date`
-
-### managing membership accounts
-
-- a customer can create a new membership account
-  - reject entry if `full_name` + `date_of_birth` already exists
-  - only adults 18+ can create accounts, verified with `date_of_birth`
-  - `membership_id` is automatically generated
-  - `payment_method` must be `credit card` or `debit card`
-- an employee can update a membership account only after a formal customer request
-  - only `address` and `payment_method` are editable
-  - reject attempts to edit `full_name`, `date_of_birth`, or `account_status`
-  - a customer has exactly one address and one payment method stored at a time
-
-### renting games
-
-- `rental_id` is automatically generated for each rental log
-- `date_rented` always equals today's date
-- a member cannot actively rent multiple copies of the same game
-  - check existing rental logs for the same `membership_id` + `game_id` where `return_status` is `rented`
-- a member can have no more than 3 active rentals at one time
-  - include the requested rentals in the cap check before approving the transaction
-- a customer cannot rent while blocked or while outstanding charges exist
-  - check `account_status`
-  - check linked rental logs for unpaid late fees or unpaid replacement charges
-- `due_for_return` is 7 days after `date_rented`
-  - new releases have a 2 day max rental period
-- customer must provide valid `game_id` values
+- each game you rented must be considered a seperate record — has its own rental log (irregardless if the customer checked out multiple rentals at one time)
+- a member must not be able to actively rent multiple copies of one game title
+- a member can not have more than 3 active rentals at one time
+- a customer cannot rent anything if blocked or if outstanding charges exist
+- a game must always be due for return 7 days after its rented
+- an employee must provide valid `game_id` values
   - reject invalid game ids
   - reject unavailable games
   - available copies are calculated from inventory and active rental logs
-- inform renter that a `$40` replacement fee is incurred if the game is more than 14 days overdue
+- a potential renter must be informed in verbally, that a `$40` replacement fee is incurred if the game is more than 14 days overdue
 
-### overdue rentals and charges
+### customers returning games/paying fees & the penalities stemming from late or lost games
 
-- late fees are automatically calculated in dollars per day after `due_for_return`
+- late fees are to be calculated in dollars per day as soon as it is overdue
   - `$1` per day for non-new releases
   - `$2` per day for new releases
-  - late fees do not continue accumulating after a replacement charge is flagged
-- replacement charge is automatically flagged when a rental is 14 days or more overdue
-  - set `replacement_charge` to `true`
-  - reset `late_fees_total` to `$0`
-  - set `return_status` to `lost`
-  - deduct `1` from the linked game's `total_copies`
-- accounts remain blocked while unpaid late fees or unpaid replacement charges exist
-
-### paying charges
-
-- late fees must be paid in full
-  - partial payment is rejected
-  - paid late fees are reset to `$0`
-- replacement charges must be processed in full
-  - once processed, set `replacement_charge_processed` to `true`
+  - late fees do not continue accumulating after a replacement charge has been paid
+- a replacement charge is incurred when a rental is 14 days or more overdue
+  - late fees are wiped
+  - the item must be flagged as "lost"
+  - this must be reflected as a loss from the games inventory
+- associated membership accounts must remain blocked whilst unpaid late fees or unpaid replacement charges exist
+- late fees can only be paid in full, before any further rentals
+- replacement charges must be paid in full, before any further rentals
 - account unblocking is allowed only when all linked late fees are `$0` and all replacement charges are processed
-
-### returning games
-
-- if returned successfully, `return_status` becomes `returned`
-- employee checks the condition of returned games
-  - if damaged beyond repair, flag `replacement_charge`, set `return_status` to `lost`, and deduct `1` from `total_copies`
+- an employee must always check the condition of any returned game
+  - if damaged beyond repair, a replacement charge must be paid by that member
 
 ## technical constraints
 
@@ -135,30 +82,29 @@ Looking at all six domain constraint sections for field-level rules embedded in 
 
 ### game inventory
 
-- `game_id`
+- `game_id` - id: automatically generated, not editable
 - `title`
 - `platform`
 - `release_date`
 - `total_copies`
-- `replacement_cost`
-- `is_new_release`
+- `replacement_cost` - default value: $40
 
 ### membership accounts
 
-- `membership_id`
+- `membership_id` - id: auto generated
 - `full_name`
 - `date_of_birth`
-- `address`
-- `payment_method`
+- `address` - 1 max
+- `payment_method` - 1 max
 - `account_status`
 
 ### rental logs
 
-- `rental_id`
+- `rental_id` - id: auto generated
 - `membership_id`
 - `game_id`
-- `date_rented`
-- `due_for_return`
+- `date_rented` - always current date
+- `due_for_return` - always 7 days after `date_rented`
 - `late_fees_total`
 - `replacement_charge`
 - `replacement_charge_processed`
@@ -286,11 +232,12 @@ Looking at all six domain constraint sections for field-level rules embedded in 
    1.2 reject invalid `membership_id`
    1.3 reject invalid `game_id`
    1.4 reject blocked member accounts
-   1.5 reject members with outstanding late fees
+   1.5 reject members with outstanding late fees (check `account_status`
+  - check linked rental logs for unpaid late fees or unpaid replacement charges)
    1.6 reject members with unprocessed replacement charges
    1.7 reject unavailable games
-   1.8 reject duplicate active rentals for the same member + game
-   1.9 reject transactions that would exceed 3 active rentals
+   1.8 reject duplicate active rentals for the same member + game (check existing rental logs for the same `membership_id` + `game_id` where `return_status` is `rented`)
+   1.9 reject transactions that would exceed 3 active rentals (include the requested rentals in the cap check before approving the transaction)
 2. generate one rental log per approved game and persist to JSON
    2.1 generate a unique `rental_id`
    2.2 set `membership_id` and `game_id` from employee input
