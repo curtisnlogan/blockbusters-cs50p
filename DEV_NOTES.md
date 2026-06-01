@@ -6,7 +6,7 @@
 - The project focuses on core rental management functionality only.
 - It is not attempting to be perfectly accurate to historical Blockbuster policies.
 - Employees use the program to manage game inventory, membership accounts, rentals, fees, and returns.
-- Data is persisted with JSON files rather than a database.
+- Data is persisted through JSON files.
 
 ## clarifications
 
@@ -99,10 +99,13 @@
 
 - written in Python only
 - include `main` and at least 3 additional functions at the same indentation level as `main`
-- at least 3 functions must have unit tests with `pytest`
+- at least 3 functions (all in `project.py`) must have unit tests with `pytest`
+- `main` must be called in a file called `project.py`
+- all tests in `test_project.py` (each named `test_funcname`)
 - pip libraries are allowed
   - all pip libraries used must be listed in `requirements.txt`
-- submission must follow CS50P final project requirements
+- "How to Submit" section on eDx to be completed, after project is finalized
+- README "Your README.md file should be minimally multiple paragraphs in length, and should explain what your project is, what each of the files you wrote for the project contains and does, and if you debated certain design choices, explaining why you made them. Ensure you allocate sufficient time and energy to writing a README.md that documents your project thoroughly. Be proud of it! A README.md in the neighborhood of 500 words is likely to be sufficient for describing your project and all aspects of its functionality. If unable to reach that threshold, that probably means your project is insufficiently complex"
 
 ### self-imposed
 
