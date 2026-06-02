@@ -87,8 +87,7 @@
 - JSON storage for persistence - time-constraint no database
 - does not need to account for 'race conditions', were two employees edit the same JSON at the same time - out of scope for this project, complexity
 - CLI only - time-constraint, GUI mandatory in real-world
-- must use `rich` to improve CLI presentation - compensate for lack of GUI
-- must use `pyfiglet` to generate a retro-looking Blockbuster-style logo for the main menu - branding matters
+- must use `rich` to improve CLI presentation - compensate for lack of GUI ( Plain rich tables for displaying inventory/rentals is genuinely useful (data is unreadable otherwise)
 
 ## design
 
