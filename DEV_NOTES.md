@@ -142,9 +142,9 @@
   - handles membership rules and changes to member records
 - `rental_record.py` (OOP)
   - handles rental rules and changes to rental log records
-- `json_storage.py` (not an object)
+- `storage.py` (not an object)
   - handles JSON loading, saving, validation, and normalization
-- `reconciliation.py` (not an object)
+- `startup_reconciliation.py` (not an object)
   - handles idempotent startup correction of derived state across inventory, members, and rentals
 
 - `config.py`
