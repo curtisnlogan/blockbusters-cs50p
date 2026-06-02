@@ -36,8 +36,11 @@ The system is designed from the perspective of an employee operating a terminal 
 ### Self-Imposed
 - OOP for domain modules — the natural fit for encapsulating business rules per entity
 - JSON for persistence — no database setup required; acceptable given single-process, single-operator scope
+- All three JSON stores loaded at startup rather than on demand — this is not a production app operating against a large database; loading everything upfront keeps orchestration simple with no meaningful cost at this scale
 - CLI only — a GUI would be expected in a real-world system but is out of scope here
 - `rich` for CLI output — plain `print` is unreadable for tabular data; `rich` tables are the minimum viable presentation layer
+- `handlers.py` as a dedicated layer between `main` and the domain modules — without it, `main` would have to interpret every possible domain result and decide what to display and persist, which is logic that has no place in an entry point
+- `startup_reconciliation.py` as its own module — reconciliation is critical to the accuracy of all three stores and must complete before the CLI is available; embedding it in `main` would bury something that important
 - Authentication and authorisation omitted — the system assumes a single trusted employee operator
 - Concurrency not handled — JSON storage is safe only because one process runs at a time; race conditions are explicitly out of scope
 - Audit logging and security hardening deferred — standard in production systems but add complexity with no benefit at this scope
@@ -97,7 +100,14 @@ A member can have many rental logs over time, and a game can appear in many rent
 
 **`requirements.txt`** — Lists all third-party pip libraries used by the project.
 
-## Design Decisions
+## Runtime
 
-- The program loads inventory, memberships, and rental logs at startup for simpler orchestration. Loading by domain was considered for stricter seperation, but deferred because it adds complexity with little benefit for the scope of this CS50 CLI project.
+1. `main` calls `storage.py` to load all three JSON stores into in-memory dicts
+2. `startup_reconciliation.py` runs — correcting fees, flagging lost items, updating stock, and blocking affected accounts
+3. Any changes from reconciliation are persisted back to JSON before the CLI is available
+4. The main menu is presented to the employee via `cli.py`
+5. Each action the employee takes is routed through `handlers.py`, which calls the appropriate domain module and processes the result — validation errors and success responses are passed back through `cli.py` as user-friendly messages
+6. On success, `handlers.py` calls `storage.py` to persist changes
+7. The employee is returned to the main menu after every action, regardless of outcome
+8. On exit, the JSON stores reflect the final in-memory state
 
