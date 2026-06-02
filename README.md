@@ -44,13 +44,34 @@ The system is designed from the perspective of an employee operating a terminal 
 
 ## Data Model
 
-The project stores data in JSON using three main entities:
+The project stores data in JSON across three entities:
 
-- `games`: id, title, platform, release date, total copies, replacement cost, new release flag
-- `members`: id, name, date of birth, address, payment method, account status
-- `rental_logs`: links members to games and stores: rental id, membership id, rental id, rental date, due date, late fees, replacement charges, and return status
+**Games**
+- `game_id` — auto-generated
+- `title`
+- `platform`
+- `total_copies` — default: `1`
+- `replacement_cost` — default: `$40`
 
-In-terms of the overall relationships between my date, a member can have many rental logs, and a game can appear in many rental logs over time. The rental log system is the bridge which provides the many-to-many relationship between members and all of their rented games.
+**Members**
+- `membership_id` — auto-generated
+- `full_name` — max 20 characters
+- `date_of_birth` — format: `DD/MM/YY`
+- `address`
+- `payment_method`
+- `account_status` — default: `active`
+
+**Rental Logs**
+- `rental_id` — auto-generated
+- `membership_id` — links to a member
+- `game_id` — links to a game
+- `date_rented` — always today's date at checkout
+- `due_for_return` — always 7 days after `date_rented`
+- `late_fees_total` — default: `$0`
+- `replacement_charge` — default: `false`
+- `return_status` — default: `rented`
+
+A member can have many rental logs over time, and a game can appear in many rental logs over time. The rental log acts as the join between members and games, capturing the full history of every rental.
 
 ## Design Decisions
 
