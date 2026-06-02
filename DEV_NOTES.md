@@ -133,9 +133,11 @@
 #### application structure
 
 - `project.py`
-  - program entry point (main lives here)
+  - program entry point (main lives here); handles startup and top-level error catching only
+- `handlers.py` (not an object)
+  - receives user actions from the CLI, calls the appropriate domain module, processes the result, and calls `cli.py` to render and `storage.py` to persist
 - `cli.py` (not an object)
-  - user-facing CLI interface
+  - user-facing CLI interface; pure presentation layer — collects input and renders output only
 - `game_inventory.py` (OOP)
   - handles inventory rules and changes to game records
 - `membership.py` (OOP)
@@ -164,8 +166,9 @@
 - The user is presented with 4 main options, inventory, memberships, rentals and exit
 - The first 3 of these have a sub-menu of actions that can then be performed, with the exit option asking for confirmation (after which the user will then have to restart the program manually)
 - If the user has decided to close the program, it is expected that that the JSON stores represent the in-memory states which were present before exiting (the user can only exit the program through the main menu, not part-way through modification... the user should be warned about this)
-- If the user performs any operations on any in-memory dicts through the CLI, buissness logic modules will always return a result, with a status message to `main.py`, such as a validation error or success (with payload)
-- `main.py` then uses that returned result to decide what to display through `cli.py` and to call `storage.py` to persist anything new to JSONs.
+- If the user performs any operations on any in-memory dicts through the CLI, business logic modules will always return a result, with a status such as a validation error or success (with payload), to `handlers.py`
+- `handlers.py` then uses that returned result to decide what to display through `cli.py` and to call `storage.py` to persist anything new to JSONs
+- `main.py` has a top-level error catch around the `handlers.py` call to handle any unexpected failures cleanly
 - The user will then be returned to the main-menu, regardless
 
 ## slices
