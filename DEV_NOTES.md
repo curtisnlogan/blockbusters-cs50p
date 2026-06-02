@@ -129,37 +129,44 @@
 - A member can have many rental logs over time.
 - A game can appear in many rental logs over time.
 - Rental logs as a "join table" bridges that many-to-many relationship between members and the games that they rent.
-<!-- TODO: review from here -->
 
-### application structure
+#### application structure
 
-- `main.py`
-  - program entry point and orchestrator
-- `cli.py`
+- `project.py`
+  - program entry point (main lives here)
+- `cli.py` (not an object)
   - user-facing CLI interface
-- `inventory.py`
+- `game_inventory.py` (OOP)
   - handles inventory rules and changes to game records
-- `members.py`
+- `membership.py` (OOP)
   - handles membership rules and changes to member records
-- `rentals.py`
+- `rental_record.py` (OOP)
   - handles rental rules and changes to rental log records
-- `storage.py`
+- `json_storage.py` (not an object)
   - handles JSON loading, saving, validation, and normalization
-- `reconciliation.py`
+- `reconciliation.py` (not an object)
   - handles idempotent startup correction of derived state across inventory, members, and rentals
 
-### runtime behaviour
+- `config.py`
+   - centralized location to store files paths e.g. "instead of "data/inventory.json" appearing in storage.py and reconciliation.py, both would import INVENTORY_PATH from config.py"
+- `test_project.py`
+   - all of my unit tests live here
+<!-- TODO: review from here -->
+### behaviour
 
-- At startup, `main.py` uses `storage.py` to load all JSON stores into shared in-memory collections.
-- Loading all stores at startup keeps orchestration simple for the scope of this CS50 CLI project.
-- Loading data separately by domain was considered for stricter separation, but deferred because it adds complexity with little practical benefit for this project.
-- After loading, `main.py` calls `reconciliation.py` to apply startup correction rules across the in-memory inventory, membership, and rental data.
-- If reconciliation changes any records, `main.py` uses `storage.py` to persist those corrected in-memory collections back to JSON before the program enters the CLI flow.
-- During runtime, `main.py` passes the shared in-memory collections into domain modules such as `inventory.py`, `members.py`, and `rentals.py`.
-- Domain modules mutate only the relevant records in those shared in-memory collections rather than loading JSON or rebuilding and returning an entire collection.
-- Domain methods return a small result object or status message to `main.py`, such as success/failure, a generated id, or a validation error.
-- `main.py` uses that returned result to decide what to display through `cli.py` and whether `storage.py` should persist the updated in-memory state.
-- This keeps `storage.py` responsible for persistence, domain modules responsible for business rules, `reconciliation.py` responsible for startup correction, and `main.py` responsible for orchestration.
+#### runtime
+
+- At startup, `main.py` calls `json_storage.py` to load all JSON stores into in-memory dicts (loading all stores at startup keeps things simple for the scope of this project.)
+- After this, `main.py` calls `reconciliation.py` to apply any valid adjustments across in-memory dicts
+- If reconciliation alters any of in-memory dicts, `storage.py` should persist these changes back to all relevant JSONs before the CLI is available to the end-user
+- Once completed, `main.py` passes only the correct shared in-memory collection into each buissness logic module
+- At this point, the CLI main menu is now available to the end-user, it should note that all data has been loaded successfully, the system is now fully-operational
+- The user is presented with 4 main options, inventory, memberships, rentals and exit. The first 3 have a sub-menu of actions that can then be performed, with the exit asking for confirmation (they will then have to restart the program manually)
+- If the user has decided to close the program, it is expected that that the JSON stores represent the in-memory states which were present before exiting (the user can only exit the program mid-operation, not part-way through modification)
+- If the user performs any operations on any domain through the CLI, it will call the appropriate actions
+- Buissness logic modules return results and a status message to `main.py`, such as a validation error or success
+- `main.py` uses that returned result to decide what to display through `cli.py` and to call `storage.py` to persist anything new to JSONs.
+- After performing any operation either successfully or unsuccessfully, the user will be returned to the main menu
 
 ## vertical slices
 
