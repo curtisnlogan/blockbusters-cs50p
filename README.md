@@ -29,6 +29,19 @@ The system is designed from the perspective of an employee operating a terminal 
 - Copy counts may never be manually reduced — only system logic may do this
 - Account status is always managed by the program, never set manually
 
+## Technical Constraints
+
+### [CS50P Requirements](https://cs50.harvard.edu/python/project/)
+
+### Self-Imposed
+- OOP for domain modules — the natural fit for encapsulating business rules per entity
+- JSON for persistence — no database setup required; acceptable given single-process, single-operator scope
+- CLI only — a GUI would be expected in a real-world system but is out of scope here
+- `rich` for CLI output — plain `print` is unreadable for tabular data; `rich` tables are the minimum viable presentation layer
+- Authentication and authorisation omitted — the system assumes a single trusted employee operator
+- Concurrency not handled — JSON storage is safe only because one process runs at a time; race conditions are explicitly out of scope
+- Audit logging and security hardening deferred — standard in production systems but add complexity with no benefit at this scope
+
 ## Data Model
 
 The project stores data in JSON using three main entities:
