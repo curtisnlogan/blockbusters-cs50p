@@ -1,20 +1,13 @@
 # blockbusters-rental-manager
 #### Video Demo: URL
 
-## Problem Statement
+## Description
 
-- A software solution to manage the Blockbuster games rental service
+A CLI rental management system for a Blockbuster-style game store. The program gives a single employee operator tools to manage game inventory, create member accounts, and process rentals, returns, and fee payments — all enforced by a defined set of business rules.
 
-## Core Functionality
+The system is a rough approximation of how Blockbuster operated, not an attempt at historical accuracy. The scope is limited to core game rental operations. Authentication, concurrency handling, audit logging, and a GUI are all intentionally out of scope for this CS50P final project.
 
-- Concerned with core rental management functionality only
-- Not attempting to be "perfectly" accurate with regards to Blockbuster policies
-- Automatic account blocking/unblocking
-- An employee can add and update game inventory
-- An employee can create and update blockbuster membership accounts
-- A customer can rent games
-- A customer can pay late fees
-- A customer can return games
+The system is designed from the perspective of an employee operating a terminal at a store counter. Customers interact with the store through the employee — they do not use the program directly.
 
 ## Domain Rules/Logic
 
