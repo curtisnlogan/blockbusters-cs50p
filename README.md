@@ -73,6 +73,30 @@ The project stores data in JSON across three entities:
 
 A member can have many rental logs over time, and a game can appear in many rental logs over time. The rental log acts as the join between members and games, capturing the full history of every rental.
 
+## Files
+
+**`project.py`** — Program entry point. `main` lives here. Handles startup only: loads all JSON stores via `storage.py`, runs reconciliation, persists any changes, then calls into `handlers.py`. Has a top-level error catch around that call for any unexpected failures.
+
+**`handlers.py`** — Receives user actions from `cli.py`, calls the appropriate domain module, processes the result, and calls `cli.py` to render and `storage.py` to persist. This is where the "what do I do with this result" logic lives, keeping `main` minimal and `cli.py` as a pure presentation layer.
+
+**`cli.py`** — User-facing CLI interface (not a class). Renders all menus, prompts, and output using `rich`. Collects input and renders output only — no business logic or persistence.
+
+**`game_inventory.py`** — OOP module encapsulating all inventory rules and mutations: adding new titles, incrementing copy counts, and enforcing inventory constraints.
+
+**`membership.py`** — OOP module encapsulating all membership rules and mutations: account creation, age validation, duplicate checking, and account status management.
+
+**`rental_record.py`** — OOP module encapsulating all rental rules and mutations: creating rental logs, enforcing rental caps, processing returns, and calculating late fees and replacement charges.
+
+**`storage.py`** — Handles all JSON I/O: loading stores at startup, saving in-memory dicts back to disk after mutations, validating and normalising data on load. Not a class.
+
+**`startup_reconciliation.py`** — Runs once at startup before the CLI is available. Applies idempotent corrections to in-memory state: recalculates late fees, flags rentals overdue by 14+ days as `lost`, decrements stock, and blocks affected accounts. Any changes are persisted before the employee can act.
+
+**`config.py`** — Single source of truth for all file paths. Prevents path strings from being scattered across multiple modules.
+
+**`test_project.py`** — All unit tests, written with `pytest`. Each test follows the `test_<funcname>` naming convention required by CS50P.
+
+**`requirements.txt`** — Lists all third-party pip libraries used by the project.
+
 ## Design Decisions
 
 - The program loads inventory, memberships, and rental logs at startup for simpler orchestration. Loading by domain was considered for stricter seperation, but deferred because it adds complexity with little benefit for the scope of this CS50 CLI project.
