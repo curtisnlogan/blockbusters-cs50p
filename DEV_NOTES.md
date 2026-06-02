@@ -99,8 +99,8 @@
 ######  game inventory
 
 - `game_id` - id: automatically generated
-- `title` - optional
-- `platform` - optional
+- `title`
+- `platform`
 - `total_copies` - default value: 1
 - `replacement_cost` - default value: $40
 
@@ -108,7 +108,7 @@
 
 - `membership_id` - id: auto generated
 - `full_name` - 20 char limit
-- `date_of_birth` - format: 31/05/23
+- `date_of_birth` - format: DD/MM/YY
 - `address`
 - `payment_method`
 - `account_status` - default: active
