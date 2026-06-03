@@ -101,7 +101,7 @@
 - `game_id` - id: automatically generated
 - `title`
 - `platform`
-- `total_copies` - default value: 1
+- `total_copies`
 - `replacement_cost` - default value: $40
 
 ##### membership accounts
@@ -217,7 +217,6 @@
    - checks - inform in user-friendly manner if any violation
       - normalize employee input lightly, e.g. trim whitespace
       - reject if any missing field
-      - reject duplicate title + platform combination
       - reject non-integer copy count (must be below 100)
    - confirm creation to end-user if succesful
 2. generate and persist the new game record to JSON/in-memory dict
