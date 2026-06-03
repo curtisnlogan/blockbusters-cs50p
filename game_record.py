@@ -1,3 +1,12 @@
+"""
+# make a random UUID
+   >>> uuid.uuid4()    # doctest: +SKIP
+   UUID('16fd2706-8baf-433b-82eb-8c7fada847da')
+"""
+
+import uuid
+
+
 class GameRecord:
 
     __game_id: str
@@ -9,8 +18,14 @@ class GameRecord:
     # stops the use of abbreviations for platforms and ensures that only valid platforms are used
     VALID_PLATFORMS = ["xbox", "playstation_1", "playstation_2", "n64", "nintendo_gamecube"]
 
-    def __init__(self, game_id: str, title: str, platform: str, total_copies: int, replacement_cost: float):
-        self.__game_id = game_id
+    def __init__(
+        self,
+        title: str,
+        platform: str,
+        total_copies: int,
+    ):
+        # auto-generate a unique game_id at instansiation
+        self.__game_id = str(uuid.uuid4())
         self.__title = title
         self.__platform = platform
         self.__total_copies = total_copies
