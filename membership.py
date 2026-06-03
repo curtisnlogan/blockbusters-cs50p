@@ -1,10 +1,51 @@
 """
-You're not wrong that the keys need defining — but the domain model classes ARE where you define them.
-The class attributes become the JSON keys.
-The JSON keys flow directly from the attribute names — you define them once in the model, 
-and storage.py just calls to_dict() / from_dict(). Nothing is hardcoded in two places.
-
-So your instinct was right that the keys need to be decided early, 
-but the domain model is still the right place to do it — not a separate schema file or the JSON itself. 
-The JSON files are just the output of whatever shape the model produces.
+- `membership_id` - id: auto generated
+- `full_name`
+- `date_of_birth` - format: DD/MM/YY
+- `address`
+- `payment_method`
+- `account_status` - default: active
 """
+
+from uuid import uuid4
+
+
+class Membership:
+    def __init__(
+        self, full_name: str, date_of_birth: str, address: str, payment_method: str
+    ):
+        self.__membership_id = str(uuid4())  # Auto-generated unique ID
+        self.full_name = full_name
+        self.date_of_birth = date_of_birth
+        self.address = address
+        self.payment_method = payment_method
+        self.__account_status = True  # Default: active
+
+    def __str__(self):
+        return (
+            f"Membership ID: {self.__membership_id}\n"
+            f"Full Name: {self.full_name}\n"
+            f"Date of Birth: {self.date_of_birth}\n"
+            f"Address: {self.address}\n"
+            f"Payment Method: {self.payment_method}\n"
+            f"Account Status: {'Active' if self.__account_status else 'Blocked'}"
+        )
+
+    @property
+    def full_name(self):
+        return self.__full_name
+
+    @full_name.setter
+    def full_name(self, new_full_name: str):
+        if new_full_name is not None and new_full_name != "":
+            self.__full_name = new_full_name.strip().title()
+        else:
+            raise ValueError("A name cannot be 'None' or an empty string.")
+
+    @property
+    def date_of_birth(self):
+        return self.__date_of_birth
+
+    @date_of_birth.setter
+    def date_of_birth(self, new_date_of_birth: str): 
+        raise NotImplementedError("Date of birth validation is not implemented yet.")
