@@ -8,7 +8,6 @@ import uuid
 
 
 class GameRecord:
-    __game_id: str
     # fixed replacement cost to $40.00 as per the requirements
     REPLACEMENT_COST: float = 40.00
     # stops the use of abbreviations for platforms and ensures that only valid platforms are used
