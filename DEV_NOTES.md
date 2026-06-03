@@ -107,7 +107,7 @@
 ##### membership accounts
 
 - `membership_id` - id: auto generated
-- `full_name` - 20 char limit
+- `full_name`
 - `date_of_birth` - format: DD/MM/YY
 - `address`
 - `payment_method`
@@ -239,7 +239,6 @@
 
 1. employee enters full name, date of birth, address, and payment method on customer request
    - normalize employee input lightly, e.g. trim whitespace
-   - reject duplicate `full_name` + `date_of_birth`
    - reject customers under 18
    - reject invalid `payment_method`
 2. generate and persist the new member record
