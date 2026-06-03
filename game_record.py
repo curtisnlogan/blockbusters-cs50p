@@ -4,7 +4,9 @@ class GameRecord:
     __title: str
     __platform: str
     __total_copies: int
-    __replacement_cost: float
+    # fixed replacement cost to $40.00 as per the requirements
+    REPLACEMENT_COST: float = 40.00
+    # stops the use of abbreviations for platforms and ensures that only valid platforms are used
     VALID_PLATFORMS = ["xbox", "playstation_1", "playstation_2", "n64", "nintendo_gamecube"]
 
     def __init__(self, game_id: str, title: str, platform: str, total_copies: int, replacement_cost: float):
@@ -47,11 +49,11 @@ class GameRecord:
     
     @total_copies.setter
     def total_copies(self, new_total_copies: int):
-        if isinstance(new_total_copies, int) and new_total_copies < 100 and new_total_copies >= 0:
+        if isinstance(new_total_copies, int) and 0 <= new_total_copies < 100:
             self.__total_copies = new_total_copies
         else:
-            raise ValueError("Total copies must be a positive integer less than 100")
-
+            raise ValueError("Total copies must be between 0 and 99 inclusive")
+    # does not have setter method as this value should not be changed on a per game basis
     @property
     def replacement_cost(self):
         return self.__replacement_cost
