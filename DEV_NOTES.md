@@ -138,7 +138,7 @@
   - receives user actions from the CLI, calls the appropriate domain module, processes the result, and calls `cli.py` to render and `storage.py` to persist
 - `cli.py` (not an object)
   - user-facing CLI interface; pure presentation layer — collects input and renders output only
-- `game_inventory.py` (OOP)
+- `game_record.py` (OOP)
   - handles inventory rules and changes to game records
 - `membership.py` (OOP)
   - handles membership rules and changes to member records

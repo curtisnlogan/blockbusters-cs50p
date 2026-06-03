@@ -84,7 +84,7 @@ A member can have many rental logs over time, and a game can appear in many rent
 
 **`cli.py`** — User-facing CLI interface (not a class). Renders all menus, prompts, and output using `rich`. Collects input and renders output only — no business logic or persistence.
 
-**`game_inventory.py`** — OOP module encapsulating all inventory rules and mutations: adding new titles, incrementing copy counts, and enforcing inventory constraints.
+**`game_record.py`** — OOP module encapsulating all inventory rules and mutations: adding new titles, incrementing copy counts, and enforcing inventory constraints.
 
 **`membership.py`** — OOP module encapsulating all membership rules and mutations: account creation, age validation, duplicate checking, and account status management.
 
