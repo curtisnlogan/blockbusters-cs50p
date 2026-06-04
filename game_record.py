@@ -1,10 +1,4 @@
-"""
-# make a random UUID
-   >>> uuid.uuid4()    # doctest: +SKIP
-   UUID('16fd2706-8baf-433b-82eb-8c7fada847da')
-"""
-
-import uuid
+from uuid import uuid4
 
 
 class GameRecord:
@@ -26,7 +20,7 @@ class GameRecord:
         total_copies: int,
     ):
         # auto-generate a unique game_id at instansiation
-        self.__game_id = str(uuid.uuid4())
+        self.__game_id = str(uuid4())
         self.title = title
         self.platform = platform
         self.total_copies = total_copies
