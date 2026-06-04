@@ -1,12 +1,3 @@
-"""
-- `membership_id` - id: auto generated
-- `full_name`
-- `date_of_birth` - format: DD/MM/YY
-- `address`
-- `payment_method`
-- `account_status` - default: active
-"""
-
 from uuid import uuid4
 
 
@@ -45,9 +36,49 @@ class Membership:
             raise ValueError("A name cannot be 'None' or an empty string.")
 
     @property
-    def date_of_birth(self):
-        return self.__date_of_birth
+    def is_over_18(self):
+        return self.__is_over_18
+    
+    @is_over_18.setter
+    def is_over_18(self, new_is_over_18):
+        if new_is_over_18 is True or new_is_over_18 is False:
+            self.__is_over_18 = new_is_over_18
+        else:
+            raise ValueError("Over 18 check must be either 'True' or 'False'.")
 
-    @date_of_birth.setter
-    def date_of_birth(self, new_date_of_birth: str): 
-        raise NotImplementedError("Date of birth validation is not implemented yet.")
+    @property
+    def address(self):
+        return self.__address
+
+    @address.setter
+    def address(self, new_address):
+        if new_address is not None or new_address != "":
+            self.__address = new_address.strip().title()
+        else:
+            raise ValueError("Address cannot be 'None' or an empty string.")
+
+    @property
+    def payment_method(self):
+        return self.__payment_method
+
+    @payment_method.setter
+    def payment_method(self, new_payment_method):
+        if new_payment_method in Membership.PAYMENT_METHOD:
+            self.__payment_method = new_payment_method.strip().title()
+        else:
+            raise ValueError(
+                "Invalid payment method. Enter either 'Debit Card' or 'Credit Card'."
+            )
+
+    @property
+    def account_status(self):
+        return self.__account_status
+    
+    @account_status.setter
+    def account_status(self, new_account_status):
+        if new_account_status is True or new_account_status is False:
+            self.__account_status = new_account_status
+        else:
+            raise ValueError(
+                "Account status must be either 'True' (active) or 'False' (blocked)."
+            )
