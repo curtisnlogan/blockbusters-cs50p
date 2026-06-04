@@ -40,11 +40,10 @@ class Membership:
         return self.__is_over_18
 
     @is_over_18.setter
-    def is_over_18(self, new_is_over_18):
-        if new_is_over_18 is True or new_is_over_18 is False:
-            self.__is_over_18 = new_is_over_18
+    def is_over_18(self, new_is_over_18: bool):
+        if new_is_over_18 is True: ...
         else:
-            raise ValueError("Over 18 check must be either 'True' or 'False'.")
+            raise ValueError("Over 18 check must be 'True'.")
 
     @property
     def address(self):
