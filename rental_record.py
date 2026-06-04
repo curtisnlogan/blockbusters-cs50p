@@ -98,7 +98,7 @@ class RentalRecord:
     
     @late_fees_total.setter
     def late_fees_total(self, new_late_fees_total: float):
-        if isinstance(new_late_fees_total, float) and new_late_fees_total >= 0:
+        if isinstance(new_late_fees_total, float) and new_late_fees_total >= 0.0:
             self.__late_fees_total = new_late_fees_total
         else:
             raise ValueError("Late fees total must be a non-negative float.")
