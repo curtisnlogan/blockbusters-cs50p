@@ -179,119 +179,71 @@
 
 #### view game inventory — as an employee, I can view the full game inventory so I know what is available.
 
-#### add game to inventory — as an employee, I can add a new game title to the inventory so it becomes available to rent.
+#### rent games — as an employee, I can check out one or more games to an eligible member, with rental logs being created for each game.
 
-#### increase copy count — as an employee, I can increase the copy count of an existing game so stock levels stay accurate.
+#### return game — as an employee, I can process a game return and record its condition so stock and member account status update accordingly.
 
-#### create membership — as an employee, I can create a membership account for a customer so they can begin renting games.
+#### pay charges — as an employee, I can process full payment of a member's outstanding fees so their account is unblocked.
 
-####  rent games — as an employee, I can check out one or more games to an eligible member, with rental logs being created for each game.
-
-####  return game — as an employee, I can process a game return and record its condition so stock and member account status update accordingly.
-
-####  pay charges — as an employee, I can process full payment of a member's outstanding fees so their account is unblocked.
-
-####  exit — as an employee, I can exit the program from the main menu after confirming, so I don't close it accidentally mid-operation.
+#### exit — as an employee, I can exit the program from the main menu after confirming, so I don't close it accidentally mid-operation.
 
 ### user story specifications
 
 #### startup
 
-1. load all JSON stores through `project.py` and `storage.py`
-   - store the validated data inside seperate in-memory dicts (one for each domain)
-
-2. run startup reconciliation through `reconciliation.py` and persist any changes to JSON
-   - calculate if a rental is overdue by 14 days or more, if so set `replacement_charge` to `true`, reset `late_fees_total` to `0`, set `return_status` to `lost`, deduct `1` from the game ids `total_copies` and block the associated members account
-   - if today is past `due_for_return` and `replacement_charge` is not flagged, recalculate `late_fees_total` at `$1` per day overdue and block the associated members account
+- load prepopulated JSON stores through `storage.py`
+- store all retrieved data inside `handlers.py` as in-memory dicts (mirrors JSON)
+- `handlers.py` calls `start_reconciliation.py`
+- reconciliation
+  - skip rental logs where `return_status` is already `returned` or `lost`
+  - if 14+ days overdue and `replacement_charge` is false, set `replacement_charge` to `true`, reset `late_fees_total` to `0.0`, set `return_status` to `lost`, deduct `1` from the corresponding game's `total_copies`, and block the associated member's account
+  - else if overdue but under 14 days, recalculate `late_fees_total` at $1 per day overdue and block the associated member's account
 
 ### view game inventory
 
-1. employee selects through the cli option to view the current games inventory
-   - display all available game records and associated fields through the CLI, in a neat but functional rich table format
-   - allows the user to go back to the main menu once finished
-
-### add new game to inventory
-
-1. employee selects the sub menu option to add a new game to inventory
-   - employee is asked to enter title, platform and total copies
-   - checks - inform in user-friendly manner if any violation
-      - normalize employee input lightly, e.g. trim whitespace
-      - reject if any missing field
-      - reject non-integer copy count (must be below 100)
-   - confirm creation to end-user if succesful
-2. generate and persist the new game record to JSON/in-memory dict
-   - generate a unique `game_id`
-   - default `replacement_cost` set to 40
-   - update in-memory dict
-   - persist that in-memory dict to JSON
-
-### increase copy count
-
-1. employee choose sub-menu option to increase the copy count of pre-existing game, due to new stock arrival
-   - employee is asked to enter a valid `game_id` and requested new copy count (int)
-   - checks - inform employee in user-friendly manner if violated
-      - reject invalid `game_id`
-      - reject non-integer copy count (< 100)
-      - reject any attempt to reduce the copy count
-2. update the associated game records copy count in memory and persist the successful change to JSON
-<!-- TODO: review from here -->
-### create membership
-
-1. employee enters full name, flags true if over 18, address, and payment method on customer request
-   - normalize employee input lightly, e.g. trim whitespace
-   - reject customers under 18
-   - reject invalid `payment_method`
-2. generate and persist the new member record
-   - generate a unique `membership_id`
-   - default `account_status` to `active`
-   - append the new record in memory and persist to JSON
+- employee selects to view the current games inventory
+  - display all available game records and associated fields through the rich library in the CLI
+  - should allow the user to go back to the main menu at any point
 
 ### rent games
-<!-- "a potential renter must be informed verbally, that a $40 replacement fee will be incurred if the game is more than 14 days overdue." -->
-1. employee enters a `membership_id` and one or more requested `game_id` values
-   - normalize employee input lightly, e.g. trim whitespace
-   - reject invalid `membership_id`
-   - reject invalid `game_id`
-   - reject blocked member accounts
-   - reject members with outstanding late fees (check `account_status`
-  - check linked rental logs for unpaid late fees or unpaid replacement charges)
-   - reject members with unprocessed replacement charges
-   - reject unavailable games
-   - reject duplicate active rentals for the same member + game (check existing rental logs for the same `membership_id` + `game_id` where `return_status` is `rented`)
-   - reject transactions that would exceed 3 active rentals (include the requested rentals in the cap check before approving the transaction)
-2. generate one rental log per approved game and persist to JSON
-   - generate a unique `rental_id`
-   - set `membership_id` and `game_id` from employee input
-   - set `date_rented` to today's date
-   - set `due_for_return` to 7 days after today's date
-   - default `late_fees_total` to `$0`
-   - default `replacement_charge` to `false`
-   - default `return_status` to `rented`
+
+- an employee selects the option to rent games to a customer
+  - employee enters a membership id and a game id value for each seperate rental
+  - employee informs the potential renter that a $40 replacement fee will be incurred if the game is more than 14 days overdue
+  - `handlers.py` validates and normalizes the employee inputs
+    - `normalizes input lightly, e.g. trim whitespace
+    - `rejects invalid membership ids
+    - rejects invalid game ids
+    - rejects unavaiable games (no copies)
+    - rejects duplicate active rentals for the same member + game (check existing rental logs for the same `membership_id` + `game_id` where `return_status` is `rented`)
+    - reject transactions that would exceed 3 active rentals (include the requested rentals in the cap check before approving the transaction)
+    - rejects blocked accounts
+  - if checks pass, `handlers.py` generates a rental log for each game, decrements `total_copies` by `1` on the corresponding game record, and adds both changes to the in-memory store
 
 ### return games
 
-1. employee enters a `rental_id` (provided by the customer)
-   - reject invalid `rental_id`
-   - reject rental logs that are already `returned` or `lost`
-2. employee records return condition
-   - if the game is returned successfully, set `return_status` to `returned`
-   - if damaged beyond repair, set `replacement_charge` to `true`, set `return_status` to `lost`, reset `late_fees_total` to `$0`, and deduct `1` from the linked game's `total_copies`
-3. reconcile linked member account status and persist successful changes to JSON
-
+- an employee enters into the cli a rental id that is provided by the customer
+  - `handler.py` validates input
+  - rejects invalid game ids
+  - reject rental logs that are already marked as `returned` or `lost`
+  - if all checks pass, `handler.py` marks the rental log as `returned`, increments `total_copies` by `1` on the corresponding game record, and updates the in-memory store
 ### pay charges
 
-1. employee enters a `membership_id`
-   - reject invalid `membership_id`
-   - calculate all linked outstanding late fees and unprocessed replacement charges
-   - reject partial payment
-2. process full payment
-   - reset paid `late_fees_total` values to `$0`
-   - set paid `replacement_charge_processed` values to `true`
-   - unblock the member only if no outstanding linked charges remain
-   - persist successful changes to JSON
+- an employee selects the option to pay a member's outstanding charges
+  - employee enters a `membership_id`
+  - `handlers.py` validates input
+    - rejects invalid `membership_id`
+    - rejects if no outstanding late fees or replacement charges exist
+  - if checks pass, `handlers.py` calculates the full amount owed across all linked rental logs
+    - resets all `late_fees_total` values to `0.0`
+    - resets all `replacement_charge` values to `false`
+    - for rental logs where only late fees were owed, set `return_status` to `returned`
+    - for rental logs where a replacement charge was owed, `return_status` remains `lost`
+    - unblocks the member account
 
 ### exit
 
-1. employee clicks the exit option in the `cli.py` main menu
-   - ask them if they are sure that they want to exit the program.
-   - if they click no, run the command to display the mani menu, if they click yes, exit the program cleanly
+- an employee selects the exit option from the main menu
+  - CLI asks for confirmation
+  - if confirmed, the program exits cleanly
+  - if declined, the employee is returned to the main menu
