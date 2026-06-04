@@ -12,11 +12,11 @@ from uuid import uuid4
 
 class Membership:
     def __init__(
-        self, full_name: str, date_of_birth: str, address: str, payment_method: str
+        self, full_name: str, is_over_18: bool, address: str, payment_method: str
     ):
         self.__membership_id = str(uuid4())  # Auto-generated unique ID
         self.full_name = full_name
-        self.date_of_birth = date_of_birth
+        self.is_over_18 = is_over_18
         self.address = address
         self.payment_method = payment_method
         self.__account_status = True  # Default: active
@@ -25,7 +25,7 @@ class Membership:
         return (
             f"Membership ID: {self.__membership_id}\n"
             f"Full Name: {self.full_name}\n"
-            f"Date of Birth: {self.date_of_birth}\n"
+            f"Is Over 18: {'Yes' if self.is_over_18 is True else 'No'}\n"
             f"Address: {self.address}\n"
             f"Payment Method: {self.payment_method}\n"
             f"Account Status: {'Active' if self.__account_status else 'Blocked'}"
