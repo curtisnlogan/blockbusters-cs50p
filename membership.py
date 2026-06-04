@@ -52,7 +52,7 @@ class Membership:
 
     @address.setter
     def address(self, new_address):
-        if new_address is not None or new_address != "":
+        if new_address is not None and new_address != "":
             self.__address = new_address.strip().title()
         else:
             raise ValueError("Address cannot be 'None' or an empty string.")
