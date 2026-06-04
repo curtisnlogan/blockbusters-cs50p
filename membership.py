@@ -11,6 +11,8 @@ from uuid import uuid4
 
 
 class Membership:
+    PAYMENT_METHOD = ["Debit Card", "Credit Card"]
+
     def __init__(
         self, full_name: str, is_over_18: bool, address: str, payment_method: str
     ):
