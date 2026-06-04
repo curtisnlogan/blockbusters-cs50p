@@ -38,7 +38,7 @@ class Membership:
     @property
     def is_over_18(self):
         return self.__is_over_18
-    
+
     @is_over_18.setter
     def is_over_18(self, new_is_over_18):
         if new_is_over_18 is True or new_is_over_18 is False:
@@ -51,7 +51,7 @@ class Membership:
         return self.__address
 
     @address.setter
-    def address(self, new_address):
+    def address(self, new_address: str):
         if new_address is not None and new_address != "":
             self.__address = new_address.strip().title()
         else:
@@ -62,7 +62,7 @@ class Membership:
         return self.__payment_method
 
     @payment_method.setter
-    def payment_method(self, new_payment_method):
+    def payment_method(self, new_payment_method: str):
         if new_payment_method in Membership.PAYMENT_METHOD:
             self.__payment_method = new_payment_method.strip().title()
         else:
@@ -73,9 +73,9 @@ class Membership:
     @property
     def account_status(self):
         return self.__account_status
-    
+
     @account_status.setter
-    def account_status(self, new_account_status):
+    def account_status(self, new_account_status: bool):
         if new_account_status is True or new_account_status is False:
             self.__account_status = new_account_status
         else:
