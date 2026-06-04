@@ -108,9 +108,9 @@
 
 - `membership_id` - id: auto generated
 - `full_name`
-- `date_of_birth` - format: DD/MM/YY
+- `is_over_18` - bool
 - `address`
-- `payment_method`
+- `payment_method` - either 'Debit Card' or 'Credit Card'
 - `account_status` - default: active
 
 ##### rental logs
@@ -237,7 +237,7 @@
 <!-- TODO: review from here -->
 ### create membership
 
-1. employee enters full name, date of birth, address, and payment method on customer request
+1. employee enters full name, flags true if over 18, address, and payment method on customer request
    - normalize employee input lightly, e.g. trim whitespace
    - reject customers under 18
    - reject invalid `payment_method`
