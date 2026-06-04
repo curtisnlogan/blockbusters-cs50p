@@ -79,11 +79,11 @@
 
 #### self-imposed
 
--  Several real-world concerns are intentionally out of scope
-   - Authentication and authorisation are omitted — the system assumes a single trusted employee operator.
-   - Concurrency is not handled; JSON storage is safe only because one process runs at a time.
-   - Audit logging, security hardening are all deferred.
-   - These are standard requirements in production systems at scale but would add significant complexity with no benefit at this for a CS50P final project.
+- Several real-world concerns are intentionally out of scope
+  - Authentication and authorisation are omitted — the system assumes a single trusted employee operator.
+  - Concurrency is not handled; JSON storage is safe only because one process runs at a time.
+  - Audit logging, security hardening are all deferred.
+  - These are standard requirements in production systems at scale but would add significant complexity with no benefit at this for a CS50P final project.
 - OOP - industry standard to this problem
 - JSON storage for persistence - time-constraint no database
 - does not need to account for 'race conditions', were two employees edit the same JSON at the same time - out of scope for this project, complexity
@@ -96,7 +96,7 @@
 
 #### domain model
 
-######  game inventory
+###### game inventory
 
 - `game_id` - id: automatically generated
 - `title`
@@ -150,9 +150,9 @@
   - handles idempotent startup correction of derived state across inventory, members, and rentals
 
 - `config.py`
-   - centralized location to store files paths e.g. "instead of "data/inventory.json" appearing in storage.py and reconciliation.py, both would import INVENTORY_PATH from config.py"
+  - centralized location to store files paths e.g. "instead of "data/inventory.json" appearing in storage.py and reconciliation.py, both would import INVENTORY_PATH from config.py"
 - `test_project.py`
-   - all of my unit tests live here
+  - all of my unit tests live here
 
 ### behaviour
 
