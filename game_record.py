@@ -9,7 +9,7 @@ class GameRecord:
         "xbox",
         "playstation_1",
         "playstation_2",
-        "n64",
+        "nintendo_64",
         "nintendo_gamecube",
     ]
 
