@@ -59,7 +59,7 @@ The project stores data in JSON across three entities:
 **Members**
 - `membership_id` — auto-generated
 - `full_name` — max 20 characters
-- `date_of_birth` — format: `DD/MM/YY`
+- `is_over_18` — bool
 - `address`
 - `payment_method`
 - `account_status` — default: `active`
