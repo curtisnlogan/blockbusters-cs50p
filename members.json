@@ -1,0 +1,82 @@
+[
+    {
+        "membership_id": "1f857245-3c29-466e-b87d-69be3d03e42d",
+        "full_name": "James Hartley",
+        "is_over_18": true,
+        "address": "14 Maple Street, Manchester, M1 2AB",
+        "payment_method": "Debit Card",
+        "account_status": true
+    },
+    {
+        "membership_id": "aceeca72-3d2b-4bd3-b574-fc6d54563770",
+        "full_name": "Sarah Thompson",
+        "is_over_18": true,
+        "address": "7 Birchwood Avenue, Leeds, LS3 4CD",
+        "payment_method": "Credit Card",
+        "account_status": true
+    },
+    {
+        "membership_id": "cbac3b55-f0f9-4492-ab60-145bc0b651c0",
+        "full_name": "Daniel Okafor",
+        "is_over_18": true,
+        "address": "32 Victoria Road, Birmingham, B5 6EF",
+        "payment_method": "Debit Card",
+        "account_status": true
+    },
+    {
+        "membership_id": "25bb1501-f104-4df9-b798-9e5241b81a71",
+        "full_name": "Laura Mitchell",
+        "is_over_18": true,
+        "address": "9 Elm Close, Bristol, BS1 7GH",
+        "payment_method": "Credit Card",
+        "account_status": false
+    },
+    {
+        "membership_id": "451ae7ad-8d78-4111-a93d-3190155fdedd",
+        "full_name": "Ryan Gallagher",
+        "is_over_18": true,
+        "address": "55 Castle Lane, Edinburgh, EH1 3IJ",
+        "payment_method": "Debit Card",
+        "account_status": true
+    },
+    {
+        "membership_id": "9b2dbb2b-de8d-4d08-89ff-7e52254f467c",
+        "full_name": "Priya Sharma",
+        "is_over_18": true,
+        "address": "18 Queensway, London, W2 4KL",
+        "payment_method": "Credit Card",
+        "account_status": true
+    },
+    {
+        "membership_id": "32764188-3686-4730-99a4-629310cc6c3c",
+        "full_name": "Tom Brennan",
+        "is_over_18": true,
+        "address": "3 Harbour View, Cardiff, CF10 5MN",
+        "payment_method": "Debit Card",
+        "account_status": true
+    },
+    {
+        "membership_id": "0fb0ae85-bbe3-4d92-af31-2b94e1750a3a",
+        "full_name": "Emma Clarke",
+        "is_over_18": true,
+        "address": "21 Foxglove Drive, Sheffield, S1 8OP",
+        "payment_method": "Credit Card",
+        "account_status": false
+    },
+    {
+        "membership_id": "6fba0d5a-f29c-446a-ac8f-f228c14f433b",
+        "full_name": "Marcus Webb",
+        "is_over_18": true,
+        "address": "67 Park Road, Liverpool, L1 2QR",
+        "payment_method": "Debit Card",
+        "account_status": true
+    },
+    {
+        "membership_id": "03de7c79-1db0-4532-bd83-b977ff6e954e",
+        "full_name": "Chloe Ingram",
+        "is_over_18": true,
+        "address": "4 Thornton Place, Nottingham, NG1 5ST",
+        "payment_method": "Credit Card",
+        "account_status": true
+    }
+]

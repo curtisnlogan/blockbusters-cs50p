@@ -1,0 +1,72 @@
+[
+    {
+        "game_id": "d56f0653-03ab-41be-b853-6276b056f998",
+        "title": "halo: combat evolved",
+        "platform": "xbox",
+        "total_copies": 5,
+        "replacement_cost": 40.0
+    },
+    {
+        "game_id": "9dd2fc34-e2d8-48b4-bf0f-3561ec568bcf",
+        "title": "timesplitters 2",
+        "platform": "playstation_2",
+        "total_copies": 4,
+        "replacement_cost": 40.0
+    },
+    {
+        "game_id": "7773e4e6-9130-4155-991e-eb5f81a41b56",
+        "title": "40 winks",
+        "platform": "playstation_1",
+        "total_copies": 2,
+        "replacement_cost": 40.0
+    },
+    {
+        "game_id": "a666d3e4-6c40-48ad-88ea-49f990b0837a",
+        "title": "a bug's life",
+        "platform": "playstation_1",
+        "total_copies": 3,
+        "replacement_cost": 40.0
+    },
+    {
+        "game_id": "9d3394ef-3e1f-4c01-8103-207c56a1dd6c",
+        "title": "luigi's mansion",
+        "platform": "nintendo_gamecube",
+        "total_copies": 4,
+        "replacement_cost": 40.0
+    },
+    {
+        "game_id": "21d2021d-ab35-463e-ae1f-0665c2d1096c",
+        "title": "goldeneye 007",
+        "platform": "nintendo_64",
+        "total_copies": 3,
+        "replacement_cost": 40.0
+    },
+    {
+        "game_id": "6e230af3-8dce-4ffc-bb67-9ef14813c509",
+        "title": "crash bandicoot: warped",
+        "platform": "playstation_1",
+        "total_copies": 4,
+        "replacement_cost": 40.0
+    },
+    {
+        "game_id": "6ed8bebf-5dfb-4b76-a8bc-b2ca794b2d48",
+        "title": "tony hawk's pro skater 2",
+        "platform": "playstation_2",
+        "total_copies": 3,
+        "replacement_cost": 40.0
+    },
+    {
+        "game_id": "632c35e1-ff5a-41d9-893e-65164ab5087b",
+        "title": "ratchet & clank",
+        "platform": "playstation_2",
+        "total_copies": 4,
+        "replacement_cost": 40.0
+    },
+    {
+        "game_id": "3e73e6f2-74ab-4691-ac81-f00b66131ce9",
+        "title": "super smash bros. melee",
+        "platform": "nintendo_gamecube",
+        "total_copies": 3,
+        "replacement_cost": 40.0
+    }
+]
