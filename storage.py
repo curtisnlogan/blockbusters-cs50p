@@ -14,5 +14,7 @@ def load_jsons(**kwargs) -> dict:
                 try:
                     in_memory_data[key] = json.load(f)
                 except json.JSONDecodeError as e:
-                    print(f"Error decoding JSON from file: {e}")
+                    raise ValueError(f"Error not parsing JSON from {value}")
+        else:
+            raise FileNotFoundError(f"File not found: {value}")
     return in_memory_data
