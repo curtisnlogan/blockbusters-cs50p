@@ -29,7 +29,7 @@ def save_jsons(**kwargs: dict[str, dict]) -> None:
     """
     for key, value in kwargs.items():
         if isinstance(value, dict):
-            with open(f"{key}.json", "w") as f:
+            with open(f"data/{key}.json", "w") as f:
                 json.dump(value, f)
         else:
             raise ValueError(
