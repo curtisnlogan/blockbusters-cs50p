@@ -2,11 +2,9 @@
 
 ## define
 
-- Deliver a concise rental management system for a Blockbuster-style game store.
+- Deliver a concise rental management system for a Blockbuster-style store. Scope limited to core game rental operations.
 - Provide employees with tools to manage a game inventory, member accounts and rentals/returns.
-- Enforce Blockbuster-style business rules and relationships for membership, game availability, overdue fees, and replacement charges.
-- Customers create their membership, rent/return games and/or pay charges through interfacing with an employee that is using this program.
-- Keep the scope limited to core game rental operations rather than detailed historical accuracy.
+- More specifically, customers create their membership, rent/return games and/or pay charges through interfacing with a Blockbuster employee that is using this program.
 
 ## constraints
 
@@ -14,26 +12,24 @@
 
 #### invariants
 
-- replacement cost is dictated by head office, cannot be adjusted by individual stores
-- a customer must only ever have one address and payment method stored at any one time
-- a membership accounts status must be automatically handled by the program, not manually
-- each game rented must be considered a seperate record (even if the customer checked out multiple rentals at one time)
-- if a customers account is blocked, they may not take any actions asides from paying fees or returning games
-- account unblocking is allowed only when no late fees or replacement charges are tied to it
-- late fees cannot accumlate on rental logs were a replacement charge is active
+- replacement cost is dictated by head office, cannot be adjusted by individual employees
+- membership account statuses must be automatically handled by the program, not editable by employees
+- each game rented must be considered a seperate record, even if the customer checked out multiple rentals at one time (one rental log per game always)
+- if a customers account is blocked, they may not take any actions asides from paying fees and returning games
+- account unblocking is possible only when no late fees or replacement charges are present on it
+- late fees cannot accumlate on rental logs were a replacement charge has been issued
+- no membership accounts may ever exist were the age of the holder is under 18
 
 #### management of the games inventory
 
 - an employee must be able to add new titles
 - an employee must be able to increase the copy count of an a non new title
-  - employees must not be able to manually reduce the copy count
+- employees must not be able to manually reduce the copy count
 - an employee must not be able to edit a games database id
 
 #### the creation of membership accounts
 
 - a customer must be able to create a new membership account
-- a membership account must store a full name, dob, address, valid payment method plus account status flag
-- only adults 18+ can create accounts
 
 #### customers renting games
 
