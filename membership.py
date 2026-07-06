@@ -41,7 +41,8 @@ class Membership:
 
     @is_over_18.setter
     def is_over_18(self, new_is_over_18: bool):
-        if new_is_over_18 is True: ...
+        if new_is_over_18 is True:
+            self.__is_over_18 = new_is_over_18
         else:
             raise ValueError("Over 18 check must be 'True'.")
 
