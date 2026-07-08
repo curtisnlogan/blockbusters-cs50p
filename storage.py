@@ -13,7 +13,7 @@ def load_jsons(**kwargs) -> dict:
             with open(value, "r") as f:
                 try:
                     in_memory_data[key] = json.load(f)
-                except json.JSONDecodeError as e:
+                except json.JSONDecodeError:
                     raise ValueError(f"Error not parsing JSON from {value}")
         else:
             raise FileNotFoundError(f"File not found: {value}")
