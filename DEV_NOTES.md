@@ -186,9 +186,9 @@
 ### user story flows
 
 #### startup
-<-- TODO -->
 - `project.py` loads prepopulated JSON stores through `storage.py`
-- `project.py` calls `handlers.py` with data from `storage.py` as args
+<-- TODO -->
+- `project.py` calls `handlers.py` with data from `storage.py` as arg
 - `handlers.py` calls `startup_reconciliation.py`
 - `reconciliation.py`
   - skip rental logs where `return_status` is already `returned` or `lost`
