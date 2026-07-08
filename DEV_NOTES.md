@@ -187,10 +187,10 @@
 
 #### startup
 - `project.py` loads prepopulated JSON stores through `storage.py`
-<-- TODO -->
 - `project.py` calls `handlers.py` with data from `storage.py` as arg
 - `handlers.py` calls `startup_reconciliation.py`
 - `reconciliation.py`
+<-- TODO -->
   - skip rental logs where `return_status` is already `returned` or `lost`
   - if 14+ days overdue and `replacement_charge` is false, set `replacement_charge` to `true`, reset `late_fees_total` to `0.0`, set `return_status` to `lost`, deduct `1` from the corresponding game's `total_copies`, and block the associated member's account
   - else if overdue but under 14 days, recalculate `late_fees_total` at $1 per day overdue and block the associated member's account
