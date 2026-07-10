@@ -154,18 +154,20 @@
 
 #### runtime
 
-- At startup, `main.py` calls `json_storage.py` to load all JSON stores into in-memory dicts <!-- loading all stores at startup, instead of on request, keeps things simple for the scope of this project -->
-- `main.py` calls `reconciliation.py` to apply any valid changes to in-memory dicts
-- If reconciliation alters any in-memory dict, `storage.py` should persist these changes back to JSONs before the CLI is available to the end-user
-- `main.py` then passes only the appropriate shared in-memory collection into each buissness logic module
-- The CLI main menu is now available to the end-user, it should note that all data has been loaded successfully and that the system is fully-operational
-- The user is presented with 4 main options, inventory, memberships, rentals and exit
-- The first 3 of these have a sub-menu of actions that can then be performed, with the exit option asking for confirmation (after which the user will then have to restart the program manually)
-- If the user has decided to close the program, it is expected that that the JSON stores represent the in-memory states which were present before exiting (the user can only exit the program through the main menu, not part-way through modification... the user should be warned about this)
-- If the user performs any operations on any in-memory dicts through the CLI, business logic modules will always return a result, with a status such as a validation error or success (with payload), to `handlers.py`
-- `handlers.py` then uses that returned result to decide what to display through `cli.py` and to call `storage.py` to persist anything new to JSONs
-- `main.py` has a top-level error catch around the `handlers.py` call to handle any unexpected failures cleanly
-- The user will then be returned to the main-menu, regardless
+- At startup, `project.py` calls `storage.py` to load all JSON stores into in-memory dicts <!-- loading all stores at startup, instead of on request, keeps things simple for the scope of this project -->
+- `project.py` calls `handlers.py` immediately
+- `handlers.py` should always call `startup_reconciliation.py` first, to apply any neccessary changes to in-memory dicts
+- `handlers.py` then calls `cli.py`, which makes the terminal main menu available to the end-user
+- `handlers.py` then passes only the appropriate shared in-memory collection into each class module, if called 
+- `cli.py` should first note that all data has been loaded successfully and that the system is fully-operational
+- the user is presented with 4 main options, game records, memberships, rental records, and exit
+<!-- TODO -->
+- The first 3 of these have a sub-menu of actions that can then be performed, with the exit option only asking for confirmation (after which the user will then have to restart the program manually)
+- If the user has decided to close the program, it is expected that that the JSON stores now represent the in-memory states which were present before exiting (the user can only exit the program through the main menu)
+- If the user performs any operations on any in-memory dicts through the CLI, business logic modules will always return a result, eithier raising a validation error or success (with payload), to `handlers.py`
+- `handlers.py` then uses that raised error/returned result to decide what to display through `cli.py`
+- it should call `storage.py` to persist anything new to JSONs or handle any problems that were raised specifically by the class modules. the user will always then be returned to the main menu
+- `project.py` should handle all high level errors such as IO etc. from storage.py
 
 ## slices
 
