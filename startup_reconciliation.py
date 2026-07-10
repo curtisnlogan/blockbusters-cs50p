@@ -15,16 +15,25 @@ def reconcile(data: dict, target: str, today: date) -> dict:
             # check if the rental status is 'rented' to determine if we need to perform reconciliation
             if record["rental_status"] == "rented":
 
-            # convert to str to date obj
-            due_obj = date.fromisoformat(rental["due_for_return"])
+                # convert from str to date obj for comparison
+                due_date_obj = date.fromisoformat(record["due_for_return"])
 
-            # need to check if its more or less than 14 days overdue
+                # get diff between both dates
+                days_overdue = today - due_date_obj
 
-            # if under 14 days, add $1 dollar to late fee total per day overdue
+                # if under 14 days overdue, add $1 dollar to late fee total per day overdue and 
+                # block the associated member's account
+                if days_overdue.days < 14:
+                     record["late_fees_total"] = 0
+                     record["late_fees_total"] += days_overdue.days
+                     # block associated member's account
+                     members_by_id[record["member_id"]]["account_blocked"] = True
+                # if 14 days or more overdue, mark the rental as lost, 
+                # set the replacement charge to False, and decrement the total copies of the game by 1
+                else:
+                     record.update({"replacement_charge": False, "late_fees_total": 0, "return_status": "lost"})
+                     game_id = record["game_id"]
+                     games_by_id[game_id]["total_copies"] -= 1
+                     members_by_id[record["member_id"]]["account_blocked"] = True
 
-            # else if over 14 days, `replacement_charge` is false, set `replacement_charge` to `true`, 
-            # reset `late_fees_total` to `0.0`, set `return_status` to `lost`, deduct `1` from the corresponding game's `total_copies`, 
-            # and block the associated member's account
-
-    # Placeholder logic: simply return the input data
     return data
