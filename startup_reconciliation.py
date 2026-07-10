@@ -1,10 +1,10 @@
 from datetime import date
 
-def startup_reconile(data: dict, target: str, today: date) -> dict:
+def reconcile(data: dict, target: str, today: date) -> dict:
     """
     Perform startup reconciliation on the the in-memory data dictionary. 
-    This function checks late fees and replacement fees, and updates the data accordingly.
-    It returns the reconciled dictionary.
+    This function checks 'rented' games for late fees and replacement fees, and updates the data accordingly.
+    It returns the reconciled data dictionary.
     """
 
     # dict comprhensions for 0(1) lookups of members and games by their IDs
