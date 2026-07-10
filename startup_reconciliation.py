@@ -1,6 +1,6 @@
 from datetime import date
 
-def startup_reconile(data: dict) -> dict:
+def startup_reconile(data: dict, target: str, today: date) -> dict:
     """
     Perform startup reconciliation on the the in-memory data dictionary. 
     This function checks late fees and replacement fees, and updates the data accordingly.
