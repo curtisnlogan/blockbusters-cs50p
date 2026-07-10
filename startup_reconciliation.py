@@ -7,8 +7,13 @@ def startup_reconile(data: dict, target: str, today: date) -> dict:
     It returns the reconciled dictionary.
     """
 
-    for rental in data["rentals"].items():
-        if rental["rental_status"] == "rented":
+    # dict comprhensions for 0(1) lookups of members and games by their IDs
+    members_by_id = {member["member_id"]: member for member in data["members"]}
+    games_by_id = {game["game_id"]: game for game in data["game_records"]}
+
+    for record, details in data[target].items():
+            # check if the rental status is 'rented' to determine if we need to perform reconciliation
+            if record["rental_status"] == "rented":
 
             # convert to str to date obj
             due_obj = date.fromisoformat(rental["due_for_return"])
