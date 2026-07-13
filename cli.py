@@ -11,15 +11,16 @@ def main_menu():
     Displays the main menu and prompts the user for input.
     Returns the user's choice as a string.
     """
-    console.print(
-        "\nWelcome to the Blockbusters CLI! All data has been successfully loaded into memory."
-        "Please select an option from the menu below:"
-    )
-    console.print("\nMain Menu:")
-    console.print("1. Game Records")
-    console.print("2. Members")
-    console.print("3. Rentals")
-    console.print("4. Exit")
+    while True:
+        console.print(
+            "\nWelcome to the Blockbusters CLI! All data has been successfully loaded into memory."
+            "Please select an option from the menu below:"
+        )
+        console.print("\nMain Menu:")
+        console.print("1. View Game Records")
+        console.print("2. View Members")
+        console.print("3. Rentals Management")
+        console.print("4. Exit the Program")
 
     choice = input("Enter your choice (1-4): ")
     if choice not in ["1", "2", "3", "4"]:
