@@ -60,11 +60,11 @@ def view_game_records(game_records: dict):
     # build rows
     for game in game_records:
         table.add_row(
-            game_records["game_id"],
-            game_records["title"],
-            game_records["platform"],
-            str(game_records["total_copies"]),
-            str(game_records["replacement_cost"]),
+            game["game_id"],
+            game["title"],
+            game["platform"],
+            str(game["total_copies"]),
+            str(game["replacement_cost"]),
         )
 
     # end
