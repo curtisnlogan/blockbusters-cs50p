@@ -83,11 +83,11 @@ def view_members(members: dict):
         table.add_row(
             member["member_id"],
             member["full_name"],
-            member["is_over_18"],
+            str(member["is_over_18"]),
             member["address"],
             member["payment_method"],
-            member["account_status"],
+            str(member["account_status"]),
         )
 
-    #end
+    # output the table to the console
     console.print(table)
