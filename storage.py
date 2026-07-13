@@ -1,5 +1,4 @@
 import json
-from pathlib import Path
 
 
 def load_jsons(**kwargs) -> dict:
@@ -9,18 +8,12 @@ def load_jsons(**kwargs) -> dict:
     """
     in_memory_data = {}
     for key, value in kwargs.items():
-        if Path(value).is_file():
-            with open(value, "r") as f:
-                try:
-                    in_memory_data[key] = json.load(f)
-                except json.JSONDecodeError:
-                    raise ValueError(f"Error not parsing JSON from {value}")
-        else:
-            raise FileNotFoundError(f"File not found: {value}")
+        with open(value, "r") as f:
+            in_memory_data[key] = json.load(f)
     return in_memory_data
 
 
-def save_jsons(**kwargs: dict[str, dict]) -> None:
+def save_jsons(**kwargs: dict) -> None:
     """
     Save data through key-value pairs where the key is the name of the data
     and the value is the data itself, which must be a Python dict.
@@ -28,12 +21,14 @@ def save_jsons(**kwargs: dict[str, dict]) -> None:
     Note: This function will overwrite existing files with the same name without warning.
     """
     for key, value in kwargs.items():
-        if isinstance(value, dict):
-            with open(f"data/{key}.json", "w") as f:
-                json.dump(value, f)
-        else:
-            raise ValueError(
-                f"Error: {value} is not a Python dict. "
-                f"Only Python dicts can be dumped to JSON. "
+        if not isinstance(value, dict):
+            raise TypeError(
+                f"Error: {value} is not a Python dict."
+                f"Only Python dicts should be saved to storage."
                 f"Please check the value for key: {key}"
             )
+
+    for key, value in kwargs.items():
+        "Storage must be saved in the data directory with the name of the key as the filename."
+        with open(f"data/{key}.json", "w") as f:
+            json.dump(value, f)
