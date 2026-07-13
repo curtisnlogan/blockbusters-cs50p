@@ -39,7 +39,7 @@ def main_menu():
         elif choice == "4":
             confirm_exit = input("Are you sure you want to exit? (y/n): ").strip().lower()
             if confirm_exit == "y":
-                console.print("Exiting the program.")
+                console.print("Exiting the program and saving changes.")
                 return choice
             else:
                 continue  # Return to the main menu if the user does not confirm exit
@@ -96,3 +96,57 @@ def view_members(members: dict):
 
     # output the table to the console
     console.print(table)
+
+
+def rentals_management() -> str:
+    """
+    Sub-menu allows employees to rent games, return games and pay fees.
+    Returns a string indicating the choice made by the user.
+    """
+    while True:
+        console.print("\nRentals Management Menu:")
+        console.print("1. Rent Games")
+        console.print("2. Return Games")
+        console.print("3. Pay Fees")
+        console.print("4. Back to Main Menu")
+
+        rentals_choice = input("Enter your choice (1-4): ").strip()
+        if rentals_choice not in ["1", "2", "3", "4"]:
+            raise ValueError(
+                "Invalid choice. Please enter a number exactly between 1 and 4."
+            )
+        elif rentals_choice == "1":
+            console.print("You selected Rent Games.")
+            return rentals_choice
+        elif rentals_choice == "2":
+            console.print("You selected Return Games.")
+            return rentals_choice
+        elif rentals_choice == "3":
+            console.print("You selected Pay Fees.")
+            return rentals_choice
+        elif rentals_choice == "4":
+            confirm_exit = (
+                input("Are you sure you want to go back to the main menu? (y/n): ")
+                .strip()
+                .lower()
+            )
+            if confirm_exit == "y":
+                console.print("Returning to the main menu.")
+                return rentals_choice
+            else:
+                continue  # Return to the rentals management menu if the user does not confirm exit
+
+
+def rent_games(rentals: dict):
+    # Implement the logic for renting a game here
+    pass
+
+
+def return_games(rentals: dict):
+    # Implement the logic for returning a game here
+    pass
+
+
+def pay_fees(rentals: dict):
+    # Implement the logic for paying fees here
+    pass
