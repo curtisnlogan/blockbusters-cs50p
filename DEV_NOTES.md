@@ -177,6 +177,8 @@
 
 #### view game inventory — as an employee, I can view the full game inventory so I know what is available.
 
+### view members - as an employee, I can view the entire list of members so I know what customers exist.
+
 #### rent games — as an employee, I can check out one or more games to an eligible member, with rental logs being created for each game.
 
 #### return game — as an employee, I can process a game return and record its condition so stock and member account status update accordingly.
@@ -200,7 +202,12 @@
 ### view game inventory
   <-- TODO -->
 - employee selects to view the current games inventory
-  - display all available game records and associated fields through the rich library in the CLI
+  - display all available game records and associated values through the rich library in the CLI
+  - should allow the user to go back to the main menu at any point
+
+### view members
+- employee seleccts to view the current list of members
+  - display all available  and associated values through the rich library in the CLI
   - should allow the user to go back to the main menu at any point
 
 ### rent games
