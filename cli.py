@@ -1,20 +1,25 @@
-from rich.console import  Console
+from rich.console import Console
 from rich.table import Table
 
+# Rich's main output object
+# Detects terminal capabilities (width, color) and adapts formatting
 console = Console()
+
 
 def main_menu():
     """
     Displays the main menu and prompts the user for input.
     Returns the user's choice as a string.
     """
-    print("\nWelcome to the Blockbusters CLI! All data has been loaded into memory. Please select an option from the menu below:")
-    print("\nMain Menu:")
-    print("1. Game Records")
-    print("2. Members")
-    print("3. Rentals")
-    print("4. Exit")
-
+    console.print(
+        "\nWelcome to the Blockbusters CLI! All data has been successfully loaded into memory."
+        "Please select an option from the menu below:"
+    )
+    console.print("\nMain Menu:")
+    console.print("1. Game Records")
+    console.print("2. Members")
+    console.print("3. Rentals")
+    console.print("4. Exit")
 
     choice = input("Enter your choice (1-4): ")
     if choice not in ["1", "2", "3", "4"]:
