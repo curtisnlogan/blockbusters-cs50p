@@ -23,23 +23,29 @@ def main_menu():
 
     choice = input("Enter your choice (1-4): ")
     if choice not in ["1", "2", "3", "4"]:
-        raise ValueError("Invalid choice. Please enter a number precisely between 1 and 4.")
+        raise ValueError(
+            "Invalid choice. Please enter a number exactly between 1 and 4."
+        )
+    elif choice == 1:
+        console.print("You selected Game Records.")
+        return choice
     elif choice == 2:
-        print("You selected Members. This feature is not yet implemented.")
+        console.print("You selected Members.")
         return choice
     elif choice == 3:
-        print("You selected Rentals. This feature is not yet implemented.")
+        console.print("You selected Rentals.")
         return choice
     elif choice == 4:
-        print("Exiting the program. Goodbye!")
+        console.print("Exiting the program.")
         return choice
 
-def view_game_records(game_records):
+
+def view_game_records(game_records: dict):
 
     # create a table to display game records
     table = Table(title="Game Records")
 
-    #define columns
+    # define columns
     table.add_column("Game ID", justify="right")
     table.add_column("Title", justify="right")
     table.add_column("Platform", justify="right")
