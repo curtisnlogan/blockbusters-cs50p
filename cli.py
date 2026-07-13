@@ -52,10 +52,42 @@ def view_game_records(game_records: dict):
     table.add_column("Total Copies", justify="right")
     table.add_column("Replacement Cost", justify="right")
 
-    #build rows
+    # build rows
     for game in game_records:
-        table.add_row(game_records["game_id"], game_records["title"], game_records["platform"], 
-                      str(game_records["total_copies"]), str(game_records["replacement_cost"]))
+        table.add_row(
+            game_records["game_id"],
+            game_records["title"],
+            game_records["platform"],
+            str(game_records["total_copies"]),
+            str(game_records["replacement_cost"]),
+        )
+
+    # end
+    console.print(table)
+
+
+def view_members(members: dict):
+    # create a table to display member information
+    table = Table(title="Members")
+
+    # define columns
+    table.add_column("Member ID", justify="right")
+    table.add_column("Full Name", justify="right")
+    table.add_column("Is Over 18", justify="right")
+    table.add_column("Address", justify="right")
+    table.add_column("Payment Method", justify="right")
+    table.add_column("Account Status", justify="right")
+
+    # build rows from dict
+    for member in members:
+        table.add_row(
+            member["member_id"],
+            member["full_name"],
+            member["is_over_18"],
+            member["address"],
+            member["payment_method"],
+            member["account_status"],
+        )
 
     #end
     console.print(table)
