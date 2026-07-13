@@ -20,7 +20,7 @@ def main_menu():
         console.print("1. View Game Records")
         console.print("2. View Members")
         console.print("3. Rentals Management")
-        console.print("4. Exit the Program")
+        console.print("4. Exit the Program and Save Changes")
 
         choice = input("Enter your choice (1-4): ")
         if choice not in ["1", "2", "3", "4"]:
@@ -37,7 +37,9 @@ def main_menu():
             console.print("You selected Rentals.")
             return choice
         elif choice == "4":
-            confirm_exit = input("Are you sure you want to exit? (y/n): ").strip().lower()
+            confirm_exit = (
+                input("Are you sure you want to exit? (y/n): ").strip().lower()
+            )
             if confirm_exit == "y":
                 console.print("Exiting the program and saving changes.")
                 return choice
