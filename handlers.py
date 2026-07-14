@@ -2,6 +2,7 @@ from datetime import date
 
 import cli
 import startup_reconciliation
+import sys
 
 
 def handle(data: dict) -> dict:
@@ -30,28 +31,19 @@ def handle(data: dict) -> dict:
             cli.view_members(members)
         if selection == "3":
             try:
-                rentals_choice = (
-                    cli.rentals_management()
-                )  # Pass an empty dict or actual rentals data if available
+                rentals_choice = cli.rentals_management()
             except ValueError as e:
                 print(e)
-                cli.rentals_management()  # Re-prompt the user for a valid choice
-            rentals_choice = (
-                cli.rentals_management()
-            )  # Pass an empty dict or actual rentals data if available
             if rentals_choice == "1":
                 rentals = data["rentals"]
-                # Handle renting a game
                 cli.rent_games(rentals)
             elif rentals_choice == "2":
                 rentals = data["rentals"]
-                # Handle returning a game
                 cli.return_games(rentals)
             elif rentals_choice == "3":
                 rentals = data["rentals"]
-                # Handle paying fees
                 cli.pay_fees(rentals)
             elif rentals_choice == "4":
                 continue  # Return to the main menu
         if selection == "4":
-            return data
+            sys.exit()  # Exit the program
