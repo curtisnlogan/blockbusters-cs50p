@@ -145,9 +145,20 @@ def rent_games(data: dict) -> tuple:
     Validates the inputs and checks for account status and game availability.
     Returns a tuple containing the list of Game IDs and the Member ID."""
     while True:
-        game_id = input("Enter the Game ID you want to rent: ").strip().lower()
-        member_id = input("Enter your Member ID: ").strip().lower()
-        if member_id not in data["members"] or game_id not in data["game_records"]:
+        game_ids = (
+            input("Enter the Game IDs that are to be rented, separated by '/' only: ")
+            .strip()
+            .lower()
+            .split("/")
+        )
+        member_id = input("Enter the Members ID: ").strip().lower()
+        # check if valid member id
+        if member_id not in data["members"]:
+            raise ValueError(
+                f"Error: Invalid {member_id}. Please check your input and try again."
+            )
+        # check if all game IDs are valid
+        if not all(g_id in data["game_records"] for g_id in game_ids):
             raise ValueError(
                 f"Error: Invalid {game_id} or {member_id}. Please check your input and try again."
             )
