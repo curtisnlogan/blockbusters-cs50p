@@ -6,7 +6,7 @@ from rich.table import Table
 console = Console()
 
 
-def main_menu():
+def main_menu() -> str:
     """
     Displays the main menu and prompts the user for input.
     Returns the user's choice as a string.
@@ -22,27 +22,27 @@ def main_menu():
         console.print("3. Rentals Management")
         console.print("4. Exit the Program and Save Changes")
 
-        choice = input("Enter your choice (1-4): ")
-        if choice not in ["1", "2", "3", "4"]:
+        main_choice = input("Enter your choice (1–4): ")
+        if main_choice not in ["1", "2", "3", "4"]:
             raise ValueError(
                 "Invalid choice. Please enter a number exactly between 1 and 4."
             )
-        elif choice == "1":
+        elif main_choice == "1":
             console.print("You selected Game Records.")
-            return choice
-        elif choice == "2":
+            return main_choice
+        elif main_choice == "2":
             console.print("You selected Members.")
-            return choice
-        elif choice == "3":
+            return main_choice
+        elif main_choice == "3":
             console.print("You selected Rentals.")
-            return choice
-        elif choice == "4":
+            return main_choice
+        elif main_choice == "4":
             confirm_exit = (
                 input("Are you sure you want to exit? (y/n): ").strip().lower()
             )
             if confirm_exit == "y":
                 console.print("Exiting the program and saving changes.")
-                return choice
+                return main_choice
             else:
                 continue  # Return to the main menu if the user does not confirm exit
 
@@ -102,7 +102,7 @@ def view_members(members: dict):
 
 def rentals_management() -> str:
     """
-    Sub-menu allows employees to rent games, return games and pay fees.
+    Sub-menu allows user to choose between renting games, returning games and paying fees.
     Returns a string indicating the choice made by the user.
     """
     while True:
@@ -110,7 +110,7 @@ def rentals_management() -> str:
         console.print("1. Rent Games")
         console.print("2. Return Games")
         console.print("3. Pay Fees")
-        console.print("4. Back to Main Menu")
+        console.print("4. Back to Main Menu\n")
 
         rentals_choice = input("Enter your choice (1-4): ").strip()
         if rentals_choice not in ["1", "2", "3", "4"]:
