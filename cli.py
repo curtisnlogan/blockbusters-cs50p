@@ -139,16 +139,47 @@ def rentals_management() -> str:
                 continue  # Return to the rentals management menu if the user does not confirm exit
 
 
-def rent_games(rentals: dict):
-    # Implement the logic for renting a game here
-    pass
+def rent_games(data: dict):
+    # Implement presentation for renting a game here
+    while True:
+        game_id = input("Enter the Game ID you want to rent: ").strip().lower()
+        member_id = input("Enter your Member ID: ").strip().lower()
+        if member_id not in data["members"] or game_id not in data["game_records"]:
+            raise ValueError(
+                f"Error: Invalid {game_id} or {member_id}. Please check your input and try again."
+            )
+        break  # Exit the loop if both IDs are valid
+
+    console.print(
+        f"Processing rental for Game ID: {game_id} and Member ID: {member_id}."
+    )
+    console.print(
+        'Read to the member: "For each day the game is late, a flat fee of $1 will be charged.'
+        "If the game is returned more than 14 days late,"
+        'the member will be charged a flat fee of $40 for the replacement cost of the game."'
+    )
+    while True:
+        confirm_read = (
+            input(
+                "Do you confirm that the member has read and understood this? Enter 'y' to confirm"
+            )
+            .strip()
+            .lower()
+        )
+        if confirm_read == "y":
+            return game_id, member_id
+        else:
+            console.print(
+                "Please ensure the member reads and understands the rental terms before proceeding."
+            )
+            continue  # Prompt again if the member has not confirmed understanding
 
 
-def return_games(rentals: dict):
+def return_games(data: dict):
     # Implement the logic for returning a game here
     pass
 
 
-def pay_fees(rentals: dict):
+def pay_fees(data: dict):
     # Implement the logic for paying fees here
     pass
