@@ -14,10 +14,10 @@
 
 - replacement cost is dictated by head office, cannot be adjusted by individual employees
 - membership account statuses must be automatically handled by the program, not editable by employees
-- each game rented must be considered a seperate record, even if the customer checked out multiple rentals at one time (one rental log per game always)
+- each game rented must be considered a separate record, even if the customer checked out multiple rentals at one time (one rental log per game always)
 - if a customers account is blocked, they may not take any actions asides from paying fees and returning games
 - account unblocking is possible only when no late fees or replacement charges are present on it
-- late fees cannot accumlate on rental logs were a replacement charge has been issued
+- late fees cannot accumulate on rental logs were a replacement charge has been issued
 - no membership accounts may ever exist were the age of the holder is under 18
 
 #### management of the games inventory
@@ -44,11 +44,11 @@
 - late fees are to be calculated at $1 per day as soon as the overdue date is hit
 - a replacement charge of $40 must be incurred when any rental is 14 days or more overdue
   - late fees are wiped and stay at 0
-  - the item must be flagged as "lost" and this loss must automatially be reflected in the stock of the games inventory
+  - the item must be flagged as "lost" and this loss must automatically be reflected in the stock of the games inventory
 
 #### customers returning games
 
-- customers are expected to provide the correcy rental ids when returning a game, through receipts
+- customers are expected to provide the correct rental ids when returning a game, through receipts
 - returned games are to be flagged as returned, with the games inventory automatically updating to reflect this
 - an employee must always check the condition of any returned game
   - if damaged beyond repair, a replacement charge must incurred on the associated rental log
@@ -208,14 +208,14 @@
   - should allow the user to go back to the main menu at any point
 
 ### view members
-- employee seleccts to view the current list of members
+- an employee selections the option to view the current list of members
   - display all available  and associated values through the rich library in the CLI
   - should allow the user to go back to the main menu at any point
 
 ### rent games
 - an employee selects the option to rent games to a customer
-  - employee enters a membership id and a game id value for each seperate rental
-  - employee informs the potential renter of late fees and replacement charge buissness rules
+  - employee enters a membership id and a game id value for each separate rental
+  - employee informs the potential renter of late fees and replacement charge buisseness rules
   - `cli.py` validates and normalizes the employee inputs
     - normalizes input lightly, e.g. trim whitespace
     - rejects invalid membership ids
@@ -226,7 +226,8 @@
     - check that the game id is not currently rented out in rentals
     - reject transactions that would exceed 3 active rentals (include the requested rentals in the cap check before approving the transaction)
     - rejects blocked accounts
-  - if checks pass, `handlers.py` generates a rental log for each game, decrements `total_copies` by `1` on the corresponding game record, and adds both changes to the in-memory store
+      <!-- TODO -->
+  - if checks pass, `handlers.py` generates a new rental log for each game, decrements `total_copies` by `1` on the corresponding game record, and adds the new entry to the in-memory store
 
 ### return games
 
