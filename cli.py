@@ -139,8 +139,11 @@ def rentals_management() -> str:
                 continue  # Return to the rentals management menu if the user does not confirm exit
 
 
-def rent_games(data: dict):
-    # Implement presentation for renting a game here
+def rent_games(data: dict) -> tuple:
+    """
+    Handles multiple game rentals by prompting the user for Game IDs and Member ID.
+    Validates the inputs and checks for account status and game availability.
+    Returns a tuple containing the list of Game IDs and the Member ID."""
     while True:
         game_id = input("Enter the Game ID you want to rent: ").strip().lower()
         member_id = input("Enter your Member ID: ").strip().lower()
