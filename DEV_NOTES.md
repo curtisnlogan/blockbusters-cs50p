@@ -92,9 +92,11 @@
 
 #### domain model
 
+- each JSON store is a dict of dicts keyed by its record's id (not a list of records) — the id lives as the outer key only, not duplicated as a field inside the record. this gives O(1) lookups by id and avoids the key/field drifting apart
+
 ###### game inventory
 
-- `game_id` - id: automatically generated
+- `game_id` - id: automatically generated - the outer key of each record
 - `title`
 - `platform`
 - `total_copies`
@@ -102,7 +104,7 @@
 
 ##### membership accounts
 
-- `membership_id` - id: auto generated
+- `membership_id` - id: auto generated - the outer key of each record
 - `full_name`
 - `is_over_18` - bool
 - `address`
@@ -111,9 +113,9 @@
 
 ##### rental logs
 
-- `rental_id` - id: auto generated
-- `membership_id` - from membership accounts
-- `game_id` - from game inventory
+- `rental_id` - id: auto generated - the outer key of each record
+- `membership_id` - from membership accounts (field inside the record, references a members key)
+- `game_id` - from game inventory (field inside the record, references a game inventory key)
 - `date_rented` - always current date
 - `due_for_return` - always 7 days after rented date
 - `late_fees_total` - default: $0
@@ -161,8 +163,9 @@
 - `handlers.py` then passes only the appropriate shared in-memory collection into each class module, if called 
 - `cli.py` should first note that all data has been loaded successfully and that the system is fully-operational
 - the user is presented with 4 main options, game records, memberships, rental records, and exit
+- The exit option asks for confirmation, then either closes the program or returns to the main menu if cancelled
+- Rentals will have a sub-menu of actions that can be performed if selected
 <!-- TODO -->
-- The first 3 of these have a sub-menu of actions that can then be performed, with the exit option only asking for confirmation (after which the user will then have to restart the program manually)
 - If the user has decided to close the program, it is expected that that the JSON stores now represent the in-memory states which were present before exiting (the user can only exit the program through the main menu)
 - If the user performs any operations on any in-memory dicts through the CLI, business logic modules will always return a result, eithier raising a validation error or success (with payload), to `handlers.py`
 - `handlers.py` then uses that raised error/returned result to decide what to display through `cli.py`

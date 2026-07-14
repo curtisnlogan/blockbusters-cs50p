@@ -1,6 +1,5 @@
-[
-    {
-        "rental_id": "bfb2dffc-e18b-4408-a3c9-c41746bf591f",
+{
+    "bfb2dffc-e18b-4408-a3c9-c41746bf591f": {
         "membership_id": "1f857245-3c29-466e-b87d-69be3d03e42d",
         "game_id": "d56f0653-03ab-41be-b853-6276b056f998",
         "date_rented": "2026-07-05",
@@ -9,8 +8,7 @@
         "replacement_charge": false,
         "return_status": "rented"
     },
-    {
-        "rental_id": "8e3f3212-888f-4933-a6a1-44d8060bdb1b",
+    "8e3f3212-888f-4933-a6a1-44d8060bdb1b": {
         "membership_id": "aceeca72-3d2b-4bd3-b574-fc6d54563770",
         "game_id": "9dd2fc34-e2d8-48b4-bf0f-3561ec568bcf",
         "date_rented": "2026-06-28",
@@ -19,8 +17,7 @@
         "replacement_charge": false,
         "return_status": "rented"
     },
-    {
-        "rental_id": "d18ec75b-e6f9-4d00-b588-2fffe8e8367d",
+    "d18ec75b-e6f9-4d00-b588-2fffe8e8367d": {
         "membership_id": "cbac3b55-f0f9-4492-ab60-145bc0b651c0",
         "game_id": "21d2021d-ab35-463e-ae1f-0665c2d1096c",
         "date_rented": "2026-06-15",
@@ -29,8 +26,7 @@
         "replacement_charge": false,
         "return_status": "returned"
     },
-    {
-        "rental_id": "db162709-1f7c-4ba9-a521-78f1e4e1525f",
+    "db162709-1f7c-4ba9-a521-78f1e4e1525f": {
         "membership_id": "451ae7ad-8d78-4111-a93d-3190155fdedd",
         "game_id": "9d3394ef-3e1f-4c01-8103-207c56a1dd6c",
         "date_rented": "2026-07-07",
@@ -39,8 +35,7 @@
         "replacement_charge": false,
         "return_status": "rented"
     },
-    {
-        "rental_id": "0a39c45e-8797-4fc9-a639-4405b74eed7c",
+    "0a39c45e-8797-4fc9-a639-4405b74eed7c": {
         "membership_id": "9b2dbb2b-de8d-4d08-89ff-7e52254f467c",
         "game_id": "6e230af3-8dce-4ffc-bb67-9ef14813c509",
         "date_rented": "2026-06-20",
@@ -49,8 +44,7 @@
         "replacement_charge": false,
         "return_status": "returned"
     },
-    {
-        "rental_id": "99f09101-507e-4f1a-a01d-e95a45fe1d2c",
+    "99f09101-507e-4f1a-a01d-e95a45fe1d2c": {
         "membership_id": "32764188-3686-4730-99a4-629310cc6c3c",
         "game_id": "6ed8bebf-5dfb-4b76-a8bc-b2ca794b2d48",
         "date_rented": "2026-06-10",
@@ -59,8 +53,7 @@
         "replacement_charge": true,
         "return_status": "lost"
     },
-    {
-        "rental_id": "b03175ce-d1ad-4f33-9b30-fd28f8a2bfcf",
+    "b03175ce-d1ad-4f33-9b30-fd28f8a2bfcf": {
         "membership_id": "6fba0d5a-f29c-446a-ac8f-f228c14f433b",
         "game_id": "a666d3e4-6c40-48ad-88ea-49f990b0837a",
         "date_rented": "2026-06-30",
@@ -69,8 +62,7 @@
         "replacement_charge": false,
         "return_status": "rented"
     },
-    {
-        "rental_id": "b64b39c0-c932-4974-9a93-653557c176c7",
+    "b64b39c0-c932-4974-9a93-653557c176c7": {
         "membership_id": "03de7c79-1db0-4532-bd83-b977ff6e954e",
         "game_id": "632c35e1-ff5a-41d9-893e-65164ab5087b",
         "date_rented": "2026-07-01",
@@ -79,8 +71,7 @@
         "replacement_charge": false,
         "return_status": "rented"
     },
-    {
-        "rental_id": "34b58a9e-ac65-4b36-803b-ece0ce258e46",
+    "34b58a9e-ac65-4b36-803b-ece0ce258e46": {
         "membership_id": "1f857245-3c29-466e-b87d-69be3d03e42d",
         "game_id": "3e73e6f2-74ab-4691-ac81-f00b66131ce9",
         "date_rented": "2026-06-25",
@@ -89,8 +80,7 @@
         "replacement_charge": false,
         "return_status": "returned"
     },
-    {
-        "rental_id": "e80bbc72-5f23-452a-a4b3-15a3f3a5420d",
+    "e80bbc72-5f23-452a-a4b3-15a3f3a5420d": {
         "membership_id": "aceeca72-3d2b-4bd3-b574-fc6d54563770",
         "game_id": "7773e4e6-9130-4155-991e-eb5f81a41b56",
         "date_rented": "2026-07-08",
@@ -99,4 +89,4 @@
         "replacement_charge": false,
         "return_status": "rented"
     }
-]
+}

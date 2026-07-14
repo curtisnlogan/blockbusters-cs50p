@@ -1,5 +1,4 @@
 from datetime import date
-import sys
 
 import cli
 import startup_reconciliation
@@ -22,29 +21,37 @@ def handle(data: dict) -> dict:
             selection = cli.main_menu()
         except ValueError as e:
             print(e)
-            cli.main_menu()  # Prompt the user again if they entered an invalid choice
+            continue
         if selection == "1":
-            if data.get("game_records") is None:
-                raise KeyError(
-                    "Game records data is missing. Please ensure the data is loaded correctly."
-                )
-            game_records = data.get("game_records")
+            game_records = data["game_records"]
             cli.view_game_records(game_records)
         if selection == "2":
-            if data.get("members") is None:
-                raise KeyError(
-                    "Members data is missing. Please ensure the data is loaded correctly."
-                )
-            members = data.get("members")
+            members = data["members"]
             cli.view_members(members)
         if selection == "3":
-            if data.get("rentals") is None:
-                raise KeyError(
-                    "Rentals data is missing. Please ensure the data is loaded correctly."
-                )
-            rentals = data.get("rentals")
-            cli.rentals_menu(rentals)
+            try:
+                rentals_choice = (
+                    cli.rentals_management()
+                )  # Pass an empty dict or actual rentals data if available
+            except ValueError as e:
+                print(e)
+                cli.rentals_management()  # Re-prompt the user for a valid choice
+            rentals_choice = (
+                cli.rentals_management()
+            )  # Pass an empty dict or actual rentals data if available
+            if rentals_choice == "1":
+                rentals = data["rentals"]
+                # Handle renting a game
+                cli.rent_games(rentals)
+            elif rentals_choice == "2":
+                rentals = data["rentals"]
+                # Handle returning a game
+                cli.return_games(rentals)
+            elif rentals_choice == "3":
+                rentals = data["rentals"]
+                # Handle paying fees
+                cli.pay_fees(rentals)
+            elif rentals_choice == "4":
+                continue  # Return to the main menu
         if selection == "4":
-            sys.exit()
-
-    return data
+            return data
