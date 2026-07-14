@@ -1,4 +1,5 @@
 import json
+import os
 
 
 def load_jsons(**kwargs) -> dict:
@@ -29,6 +30,13 @@ def save_jsons(**kwargs: dict) -> None:
             )
 
     for key, value in kwargs.items():
-        "Storage must be saved in the data directory with the name of the key as the filename."
-        with open(f"data/{key}.json", "w") as f:
+        """
+        Save the data to a temporary JSON file first, then rename it to the final name.
+        This approach helps prevent data loss in case of an error during the save process.
+        """
+        with open(f"data/{key}.json.tmp", "w") as f:
             json.dump(value, f)
+
+        # Rename the temporary file to the final name, replacing the old file if it exists.
+        # This is practically atomic for this project, which helps prevent data loss.
+        os.replace(f"data/{key}.json.tmp", f"data/{key}.json")
