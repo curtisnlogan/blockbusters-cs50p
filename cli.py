@@ -160,7 +160,7 @@ def rent_games(data: dict) -> tuple:
         # check if all game IDs are valid
         if not all(g_id in data["game_records"] for g_id in game_ids):
             raise ValueError(
-                f"Error: Invalid {game_id} or {member_id}. Please check your input and try again."
+                "Error: One or more Game IDs are invalid. Please check your input and try again."
             )
         break  # Exit the loop if both IDs are valid
     # check if the member's account is blocked
@@ -190,16 +190,16 @@ def rent_games(data: dict) -> tuple:
     while True:
         confirm_read = (
             input(
-                "Do you confirm that the member has read and understood this? Enter 'y' to confirm"
+                "Do you confirm that the member has read and agreed to this? Enter 'y' to confirm"
             )
             .strip()
             .lower()
         )
         if confirm_read == "y":
-            return game_id, member_id
+            break
         else:
-            console.print(
-                "Please ensure the member reads and understands the rental terms before proceeding."
+            raise ValueError(
+                "The customer has not agreed to these terms and the rental(s) cannot proceed."
             )
             continue  # Prompt again if the member has not confirmed understanding
 
