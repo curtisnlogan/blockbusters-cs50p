@@ -201,7 +201,11 @@ def rent_games(data: dict) -> tuple:
             raise ValueError(
                 "The customer has not agreed to these terms and the rental(s) cannot proceed."
             )
-            continue  # Prompt again if the member has not confirmed understanding
+
+    console.print(
+        f"Valid Rental: Generating rental entry for Game ID: {print(*game_ids, sep=', ', end='')} and Member ID: {member_id}."
+    )
+    return game_ids, member_id
 
 
 def return_games(data: dict):
