@@ -34,16 +34,16 @@ def handle(data: dict) -> dict:
                 rentals_choice = cli.rentals_management()
             except ValueError as e:
                 print(e)
-            if rentals_choice == "1":
-                rentals = data["rentals"]
-                cli.rent_games(rentals)
-            elif rentals_choice == "2":
-                rentals = data["rentals"]
-                cli.return_games(rentals)
-            elif rentals_choice == "3":
-                rentals = data["rentals"]
-                cli.pay_fees(rentals)
-            elif rentals_choice == "4":
+            try:
+                if rentals_choice == "1":
+                    cli.rent_games(data)
+            except (ValueError, KeyError) as e:
+                print(e)
+            if rentals_choice == "2":
+                cli.return_games(data)
+            if rentals_choice == "3":
+                cli.pay_fees(data)
+            if rentals_choice == "4":
                 continue  # Return to the main menu
         if selection == "4":
             sys.exit()  # Exit the program
