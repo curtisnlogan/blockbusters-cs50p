@@ -166,7 +166,7 @@
 - The exit option asks for confirmation, then either closes the program or returns to the main menu if cancelled
 - Rentals will have a sub-menu of actions that can be performed if selected
 <!-- TODO -->
-- If the user has decided to close the program, it is expected that that the JSON stores now represent the in-memory states which were present before exiting (the user can only exit the program through the main menu)
+- If the user has decided to close the program, it is expected that that the JSON stores now represent the in-memory states which were present before exiting
 - If the user performs any operations on any in-memory dicts through the CLI, business logic modules will always return a result, eithier raising a validation error or success (with payload), to `handlers.py`
 - `handlers.py` then uses that raised error/returned result to decide what to display through `cli.py`
 - it should call `storage.py` to persist anything new to JSONs or handle any problems that were raised specifically by the class modules. the user will always then be returned to the main menu
