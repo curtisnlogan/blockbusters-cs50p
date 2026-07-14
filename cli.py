@@ -163,6 +163,22 @@ def rent_games(data: dict) -> tuple:
                 f"Error: Invalid {game_id} or {member_id}. Please check your input and try again."
             )
         break  # Exit the loop if both IDs are valid
+    # check if the member's account is blocked
+    if data["members"][member_id]["account_status"] != str(True).lower():
+        raise ValueError(
+            f"{member_id} has a blocked account. "
+            f"Inform the customer that this can be "
+            f"rectified through paying all late fees, "
+            f"along with any replacement charges."
+        )
+
+    for game_id in game_ids:
+        if data["game_records"][game_id]["total_copies"] <= 0:
+            raise ValueError(
+                f"Game ID: {game_id} is currently out of stock. "
+                "Politely inform the customer and apologize for the inconvenience. "
+                "Suggest they check back later or consider renting a different game."
+            )
 
     console.print(
         f"Processing rental for Game ID: {game_id} and Member ID: {member_id}."
