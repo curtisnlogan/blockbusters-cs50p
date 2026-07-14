@@ -181,13 +181,12 @@ def rent_games(data: dict) -> tuple:
             )
 
     console.print(
-        f"Processing rental for Game ID: {game_id} and Member ID: {member_id}."
+        f"Read to the customer: For each day the game is late, a flat fee of $1 will be charged. "
+        f"If the game is returned more than 14 days late, "
+        f"the member will be charged a flat fee of ${data['game_records']['replacement_cost']} "
+        f"for the replacement cost of the game."
     )
-    console.print(
-        'Read to the member: "For each day the game is late, a flat fee of $1 will be charged.'
-        "If the game is returned more than 14 days late,"
-        'the member will be charged a flat fee of $40 for the replacement cost of the game."'
-    )
+
     while True:
         confirm_read = (
             input(
