@@ -36,9 +36,8 @@ def handle(data: dict) -> dict:
             except ValueError as e:
                 print(e)
             if rentals_choice == "1":
-                rentals = data["rentals"]
                 try:
-                    new_rentals = cli.rent_games(rentals)
+                    new_rentals = cli.rent_games(data["rentals"])
                     new_rentals = generate_new_rentals(data, new_rentals)
                     add_new_rentals(data, new_rentals)
                     # add a message to the user confirming the successful rental in cli.py
@@ -48,8 +47,7 @@ def handle(data: dict) -> dict:
                     continue  # Return to the main menu if there's an error
             elif rentals_choice == "2":
                 try:
-                    rentals = data["rentals"]
-                    returned_games = cli.return_games(rentals)
+                    returned_games = cli.return_games(data["rentals"])
                     process_returned_games(data, returned_games)
                     # add a message to the user confirming the successful return in cli.py
                     # not one god success message function
@@ -62,8 +60,7 @@ def handle(data: dict) -> dict:
                 # add a message to the user confirming the successful return in cli.py
                 # not one god success message function
             elif rentals_choice == "3":
-                rentals = data["rentals"]
-                cli.pay_fees(rentals)
+                cli.pay_fees(data["rentals"])
             elif rentals_choice == "4":
                 continue  # Return to the main menu
         if selection == "4":
