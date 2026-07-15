@@ -53,8 +53,9 @@ def handle(data: dict) -> dict:
                 continue  # Return to the main menu
         if selection == "4":
             sys.exit()  # Exit the program
-    
-def generate_new_rentals(data:dict, new_rentals: tuple) -> list:
+
+
+def generate_new_rentals(data: dict, new_rentals: tuple) -> list:
     """
     Generates new rental instances based on the provided Game IDs and Member ID.
     Updates the total copies of the games in the in-memory data store.
@@ -68,3 +69,20 @@ def generate_new_rentals(data:dict, new_rentals: tuple) -> list:
 
     return new_rental_instances
 
+
+def add_new_rentals(data: dict, new_rentals: list[RentalRecord]) -> None:
+    """
+    Adds new rental instances to the in-memory data store.
+    Returns None. This function mutates the data dictionary in place.
+    """
+    for rental_record in new_rentals:
+        data["rentals"][rental_record.rental_id] = {
+            "rental_id": rental_record.rental_id,
+            "membership_id": rental_record.membership_id,
+            "game_id": rental_record.game_id,
+            "date_rented": rental_record.date_rented,
+            "due_for_return": rental_record.due_for_return,
+            "late_fees_total": rental_record.late_fees_total,
+            "replacement_charge": rental_record.replacement_charge,
+            "return_status": rental_record.return_status,
+        }
