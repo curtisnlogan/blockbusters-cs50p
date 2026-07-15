@@ -57,7 +57,10 @@ def handle(data: dict) -> dict:
                     print(e)
                     continue  # Return to the main menu if there's an error
                 rentals = data["rentals"]
-                cli.return_games(rentals)
+                returned_games = cli.return_games(rentals)
+                process_returned_games(data, returned_games)
+                # add a message to the user confirming the successful return in cli.py
+                # not one god success message function
             elif rentals_choice == "3":
                 rentals = data["rentals"]
                 cli.pay_fees(rentals)
