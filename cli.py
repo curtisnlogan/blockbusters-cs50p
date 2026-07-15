@@ -208,9 +208,36 @@ def rent_games(data: dict) -> tuple:
     return game_ids, member_id
 
 
-def return_games(data: dict):
-    # Implement the logic for returning a game here
-    pass
+def return_games(data: dict) -> list:
+    """
+    Prompts the user for Rental IDs to be returned, validates them
+    Returns a list of validated rental IDs.
+    """
+    while True:
+        rental_ids = (
+            input(
+                "Enter the Rental IDs that are to be returned, separated by '/' only: "
+            )
+            .strip()
+            .lower()
+            .split("/")
+        )
+
+        # check if all rental IDs are valid
+        if not all(r_id in data["rentals"] for r_id in rental_ids):
+            raise ValueError(
+                "Error: One or more Rental IDs are invalid. Please check your input and try again."
+            )
+        break  # Exit the loop if rental IDs are valid
+
+    for rental_id in rental_ids:
+        if data["rentals"][rental_id]["return_status"] == "returned":
+            raise ValueError(f"Rental ID: {rental_id} has already been returned.")
+        elif data["rentals"][rental_id]["return_status"] == "lost":
+            raise ValueError(
+                f"Rental ID: {rental_id} has been reported lost. Please pay the replacement charge to unblock your account."
+            )
+    return rental_ids
 
 
 def pay_fees(data: dict):

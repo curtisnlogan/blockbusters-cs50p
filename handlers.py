@@ -47,8 +47,20 @@ def handle(data: dict) -> dict:
                     print(e)
                     continue  # Return to the main menu if there's an error
             elif rentals_choice == "2":
+                try:
+                    rentals = data["rentals"]
+                    returned_games = cli.return_games(rentals)
+                    process_returned_games(data, returned_games)
+                    # add a message to the user confirming the successful return in cli.py
+                    # not one god success message function
+                except (ValueError, KeyError) as e:
+                    print(e)
+                    continue  # Return to the main menu if there's an error
                 rentals = data["rentals"]
-                cli.return_games(rentals)
+                returned_games = cli.return_games(rentals)
+                process_returned_games(data, returned_games)
+                # add a message to the user confirming the successful return in cli.py
+                # not one god success message function
             elif rentals_choice == "3":
                 rentals = data["rentals"]
                 cli.pay_fees(rentals)
@@ -89,3 +101,15 @@ def add_new_rentals(data: dict, new_rentals: list[RentalRecord]) -> None:
             "replacement_charge": rental_record.replacement_charge,
             "return_status": rental_record.return_status,
         }
+
+def process_returned_games(data: dict, returned_games: list) -> None:
+    """
+    Processes returned games by updating their return status and the total copies of the games.
+    Returns None. This function mutates the data dictionary in place.
+    """
+    for returned_game in returned_games:
+        game_id = data["rentals"][returned_game]["game_id"]
+        data["rentals"][returned_game] = {
+            "return_status": "returned"
+        }
+        data["game_records"][game_id]["total_copies"] += 1
