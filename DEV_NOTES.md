@@ -2,9 +2,9 @@
 
 ## define
 
-- Deliver a concise rental management system for a Blockbuster-style store. Scope limited to core game rental operations.
-- Provide employees with tools to manage a game inventory, member accounts and rentals/returns.
-- More specifically, customers create their membership, rent/return games and/or pay charges through interfacing with a Blockbuster employee that is using this program.
+- Problem: A pen and paper rental management system for a Blockbuster-style store is less reliable and more human error-prone. Employees need a digital solution to manage game rentals, returns, late fees/replacement charges, and member accounts effectively.
+- Success: Ship a concise rental management system for a Blockbuster-style store. It should be user-friendly, reliable and extensible for future features.
+- None-goals: Scope should be limited to core game rental operations, not movies etc. It also does not need to be historically accurate to the real Blockbuster company, just a rough version of it. It does not handle concurrent access, as this is a single-user CLI application. A GUI is not required, but the CLI should be user-friendly and visually appealing. It does not need to handle authentication or authorization, as it assumes a single trusted employee operator. A database is not required, but JSON storage should be used for persistence. Audit logging and security hardening are out of scope.
 
 ## constraints
 
@@ -227,7 +227,6 @@
   - `handler.py` validates input
   - rejects invalid game ids
   - reject rental logs that are already marked as `returned` or `lost`
-    <!-- TODO -->
   - if all checks pass, `handler.py` marks the rental log as `returned`, increments upwards `total_copies` by `1` on the corresponding game record, and updates the in-memory store
 ### pay charges
 
