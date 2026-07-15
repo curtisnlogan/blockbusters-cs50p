@@ -246,6 +246,11 @@ def return_games(data: dict) -> list:
     return rental_ids
 
 
-def pay_fees(data: dict):
+def pay_fees(data: dict) -> str:
     # Implement the logic for paying fees here
-    pass
+    member_id = input("Enter the Members ID: ").strip().lower()
+    # check if valid member id
+    if member_id not in data["members"]:
+        raise ValueError(
+            f"Error: Invalid member ID {member_id}. Please check your input and try again."
+        )
