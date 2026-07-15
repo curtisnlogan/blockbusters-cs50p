@@ -46,6 +46,12 @@ def main_menu() -> str:
             else:
                 continue  # Return to the main menu if the user does not confirm exit
 
+def success_message(message: str):
+    """
+    Displays a success message to the user.
+    """
+    console.print(f"\n[bold green]Success:[/bold green] {message}\n")
+
 
 def view_game_records(game_records: dict):
 

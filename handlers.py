@@ -40,8 +40,6 @@ def handle(data: dict) -> dict:
                     new_rentals = cli.rent_games(data)
                     new_rentals = generate_new_rentals(data, new_rentals)
                     add_new_rentals(data, new_rentals)
-                    # add a message to the user confirming the successful rental in cli.py
-                    # not one god success message function
                 except (ValueError, KeyError) as e:
                     print(e)
                     continue  # Return to the main menu if there's an error
@@ -56,8 +54,6 @@ def handle(data: dict) -> dict:
                     continue  # Return to the main menu if there's an error
                 returned_games = cli.return_games(data)
                 process_returned_games(data, returned_games)
-                # add a message to the user confirming the successful return in cli.py
-                # not one god success message function
             elif rentals_choice == "3":
                 cli.pay_fees(data["rentals"])
             elif rentals_choice == "4":
@@ -98,6 +94,8 @@ def add_new_rentals(data: dict, new_rentals: list[RentalRecord]) -> None:
             "return_status": rental_record.return_status,
         }
 
+    cli.success_message("The rental(s) have been officially added to the system.")
+
 
 def process_returned_games(data: dict, returned_games: list) -> None:
     """
@@ -108,3 +106,5 @@ def process_returned_games(data: dict, returned_games: list) -> None:
         game_id = data["rentals"][returned_game]["game_id"]
         data["rentals"][returned_game] = {"return_status": "returned"}
         data["game_records"][game_id]["total_copies"] += 1
+
+    cli.success_message("The rental(s) have been officially returned in the system.")
