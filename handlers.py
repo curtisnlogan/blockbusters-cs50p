@@ -40,6 +40,9 @@ def handle(data: dict) -> dict:
                 try:
                     new_rentals = cli.rent_games(rentals)
                     new_rentals = generate_new_rentals(data, new_rentals)
+                    add_new_rentals(data, new_rentals)
+                    # add a message to the user confirming the successful rental in cli.py
+                    # not one god success message function
                 except (ValueError, KeyError) as e:
                     print(e)
                     continue  # Return to the main menu if there's an error
