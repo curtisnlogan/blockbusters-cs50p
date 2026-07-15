@@ -37,7 +37,7 @@ def handle(data: dict) -> dict:
             if rentals_choice == "1":
                 rentals = data["rentals"]
                 try:
-                    new_rental = cli.rent_games(rentals)
+                    new_rentals = cli.rent_games(rentals)
                 except (ValueError, KeyError) as e:
                     print(e)
                     continue  # Return to the main menu if there's an error
