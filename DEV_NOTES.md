@@ -76,7 +76,7 @@
 #### self-imposed
 
 - Several real-world concerns are intentionally out of scope
-  - Authentication and authorisation are omitted — the system assumes a single trusted employee operator.
+  - Authentication and authorization are omitted — the system assumes a single trusted employee operator.
   - Concurrency is not handled; JSON storage is safe only because one process runs at a time.
   - Audit logging, security hardening are all deferred.
   - These are standard requirements in production systems at scale but would add significant complexity with no benefit at this for a CS50P final project.
@@ -152,13 +152,13 @@
 - `test_project.py`
   - all of my unit tests live here
 
-### behaviour
+### behavior
 
 #### runtime
 
 - At startup, `project.py` calls `storage.py` to load all JSON stores into in-memory dicts <!-- loading all stores at startup, instead of on request, keeps things simple for the scope of this project -->
 - `project.py` calls `handlers.py` immediately
-- `handlers.py` should always call `startup_reconciliation.py` first, to apply any neccessary changes to in-memory dicts
+- `handlers.py` should always call `startup_reconciliation.py` first, to apply any necessary changes to in-memory dicts
 - `handlers.py` then calls `cli.py`, which makes the terminal main menu available to the end-user
 - `handlers.py` then passes only the appropriate shared in-memory collection into each class module, if called 
 - `cli.py` should first note that all data has been loaded successfully and that the system is fully-operational
@@ -214,7 +214,7 @@
 ### rent games
 - an employee selects the option to rent games to a customer
   - employee enters a membership id and a game id value for each separate rental
-  - employee informs the potential renter of late fees and replacement charge buisseness rules
+  - employee informs the potential renter of late fees and replacement charge business rules
   - `cli.py` validates and normalizes the employee inputs
     - normalizes input lightly, e.g. trim whitespace
     - rejects invalid membership ids
