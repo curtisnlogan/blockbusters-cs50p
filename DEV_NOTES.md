@@ -167,7 +167,7 @@
 - Rentals will have a sub-menu of actions that can be performed if selected
 - If the user has decided to close the program, it is expected that that the JSON stores now represent the in-memory states which were present before exiting
 <!-- TODO -->
-- If the user selects operations in `cli.py` that alter in-memory dicts, the subsequent methods that are called will always return a result, eithier raising errors or a success message (with data payload), in `handlers.py`
+- If the user selects operations in `cli.py` that alter in-memory dicts, the subsequent methods that are called will always return a result, either raising errors or a success message (with data payload), in `handlers.py`
 - `handlers.py` then uses that raised error/returned result to decide what to display through `cli.py`
 - it should call `storage.py` to persist anything new to JSONs or handle any problems that were raised specifically by the class modules. the user will always then be returned to the main menu
 - `project.py` should handle all high level errors such as IO etc. from storage.py
@@ -220,11 +220,7 @@
     - normalizes input lightly, e.g. trim whitespace
     - rejects invalid membership ids
     - rejects invalid game ids
-    <!-- TODO -->
-    <!-- check if total copies is more than 0 -->
-    - rejects unavaiable games (no copies)
-    - check that the game id is not currently rented out in rentals
-    - reject transactions that would exceed 3 active rentals (include the requested rentals in the cap check before approving the transaction)
+    - rejects unavailable games (0 copies in-stock)
     - rejects blocked accounts
       <!-- TODO -->
   - if checks pass, `handlers.py` generates a new rental log for each game, decrements `total_copies` by `1` on the corresponding game record, and adds the new entry to the in-memory store
