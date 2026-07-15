@@ -229,7 +229,7 @@
   - rejects invalid game ids
   - reject rental logs that are already marked as `returned` or `lost`
     <!-- TODO -->
-  - if all checks pass, `handler.py` marks the rental log as `returned`, increments `total_copies` by `1` on the corresponding game record, and updates the in-memory store
+  - if all checks pass, `handler.py` marks the rental log as `returned`, increments upwards `total_copies` by `1` on the corresponding game record, and updates the in-memory store
 ### pay charges
 
 - an employee selects the option to pay a member's outstanding charges
