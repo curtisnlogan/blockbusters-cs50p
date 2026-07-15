@@ -37,7 +37,7 @@ def handle(data: dict) -> dict:
                 print(e)
             if rentals_choice == "1":
                 try:
-                    new_rentals = cli.rent_games(data["rentals"])
+                    new_rentals = cli.rent_games(data)
                     new_rentals = generate_new_rentals(data, new_rentals)
                     add_new_rentals(data, new_rentals)
                     # add a message to the user confirming the successful rental in cli.py
@@ -47,15 +47,14 @@ def handle(data: dict) -> dict:
                     continue  # Return to the main menu if there's an error
             elif rentals_choice == "2":
                 try:
-                    returned_games = cli.return_games(data["rentals"])
+                    returned_games = cli.return_games(data)
                     process_returned_games(data, returned_games)
                     # add a message to the user confirming the successful return in cli.py
                     # not one god success message function
                 except (ValueError, KeyError) as e:
                     print(e)
                     continue  # Return to the main menu if there's an error
-                rentals = data["rentals"]
-                returned_games = cli.return_games(rentals)
+                returned_games = cli.return_games(data)
                 process_returned_games(data, returned_games)
                 # add a message to the user confirming the successful return in cli.py
                 # not one god success message function
@@ -99,6 +98,7 @@ def add_new_rentals(data: dict, new_rentals: list[RentalRecord]) -> None:
             "return_status": rental_record.return_status,
         }
 
+
 def process_returned_games(data: dict, returned_games: list) -> None:
     """
     Processes returned games by updating their return status and the total copies of the games.
@@ -106,7 +106,5 @@ def process_returned_games(data: dict, returned_games: list) -> None:
     """
     for returned_game in returned_games:
         game_id = data["rentals"][returned_game]["game_id"]
-        data["rentals"][returned_game] = {
-            "return_status": "returned"
-        }
+        data["rentals"][returned_game] = {"return_status": "returned"}
         data["game_records"][game_id]["total_copies"] += 1
