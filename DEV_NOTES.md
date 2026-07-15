@@ -169,7 +169,6 @@
 <!-- TODO -->
 - If the user selects operations in `cli.py` that alter in-memory dicts, the subsequent methods that are called will always return a result, either raising errors or a success message (with data payload), in `handlers.py`
 - `handlers.py` then uses that raised error/returned result to decide what to display through `cli.py`
-- it should call `storage.py` to persist anything new to JSONs or handle any problems that were raised specifically by the class modules. the user will always then be returned to the main menu
 - `project.py` should handle all high level errors such as IO etc. from storage.py
 
 ## slices
@@ -222,15 +221,14 @@
     - rejects invalid game ids
     - rejects unavailable games (0 copies in-stock)
     - rejects blocked accounts
-      <!-- TODO -->
   - if checks pass, `handlers.py` generates a new rental log for each game, decrements `total_copies` by `1` on the corresponding game record, and adds the new entry to the in-memory store
 
 ### return games
-
 - an employee enters into the cli a rental id that is provided by the customer
   - `handler.py` validates input
   - rejects invalid game ids
   - reject rental logs that are already marked as `returned` or `lost`
+    <!-- TODO -->
   - if all checks pass, `handler.py` marks the rental log as `returned`, increments `total_copies` by `1` on the corresponding game record, and updates the in-memory store
 ### pay charges
 
