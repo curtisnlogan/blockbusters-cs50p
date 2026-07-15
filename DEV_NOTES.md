@@ -230,19 +230,19 @@
   - rejects invalid game ids
   - reject rental logs that are already marked as `returned` or `lost`
   - if all checks pass, `handler.py` marks the rental log as `returned`, increments upwards `total_copies` by `1` on the corresponding game record, and updates the in-memory store
-### pay charges
 
+### pay charges
 - an employee selects the option to pay a member's outstanding charges
   - employee enters a `membership_id`
   - `handlers.py` validates input
-    - rejects invalid `membership_id`
-    - rejects if no outstanding late fees or replacement charges exist
+  - rejects invalid `membership_id`
+  <!-- TODO -->
+  - rejects if no outstanding late fees or replacement charges exist
   - if checks pass, `handlers.py` calculates the full amount owed across all linked rental logs
-    - resets all `late_fees_total` values to `0.0`
-    - resets all `replacement_charge` values to `false`
-    - for rental logs where only late fees were owed, set `return_status` to `returned`
-    - for rental logs where a replacement charge was owed, `return_status` remains `lost`
-    - unblocks the member account
+    - once payment by member is confirmed, `handlers.py` updates all linked rental logs to reflect that the charges have been paid
+      - for rental logs where only late fees were owed, set `return_status` to `returned`
+      - for rental logs where a replacement charge was owed, `return_status` remains `lost`
+      - unblock the member's account
 
 ### user friendly
 
