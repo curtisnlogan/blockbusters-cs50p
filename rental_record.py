@@ -13,7 +13,6 @@
 
 from datetime import date, timedelta
 from uuid import uuid4
-from typing import Union
 
 
 class RentalRecord:
@@ -21,8 +20,8 @@ class RentalRecord:
 
     def __init__(
         self,
-        membership_id: Union[str, int],
-        game_id: Union[str, int],
+        membership_id: str,
+        game_id: str,
     ):
         self.__rental_id = str(uuid4())
         self.membership_id = membership_id
@@ -57,7 +56,7 @@ class RentalRecord:
         return self.__membership_id
 
     @membership_id.setter
-    def membership_id(self, new_membership_id: Union[str, int]):
+    def membership_id(self, new_membership_id: str):
         if isinstance(new_membership_id, (str, int)) and new_membership_id != "":
             self.__membership_id = (
                 new_membership_id.strip()
@@ -74,7 +73,7 @@ class RentalRecord:
         return self.__game_id
 
     @game_id.setter
-    def game_id(self, new_game_id: Union[str, int]):
+    def game_id(self, new_game_id: str):
         if isinstance(new_game_id, (str, int)) and new_game_id != "":
             self.__game_id = (
                 new_game_id.strip() if isinstance(new_game_id, str) else new_game_id
