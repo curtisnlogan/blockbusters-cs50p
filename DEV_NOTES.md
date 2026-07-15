@@ -167,8 +167,7 @@
 - Rentals will have a sub-menu of actions that can be performed if selected
 - If the user has decided to close the program, it is expected that that the JSON stores now represent the in-memory states which were present before exiting
 <!-- TODO -->
-- If the user selects operations in `cli.py` that alter in-memory dicts, the subsequent methods that are called will always return a result, either raising errors or a success message (with data payload), in `handlers.py`
-- `handlers.py` then uses that raised error/returned result to decide what to display through `cli.py`
+- If the user selects operations in `cli.py` that alter in-memory dicts, the subsequent methods are called by `handlers.py` and displays success messages back through `cli.py`
 - `project.py` should handle all high level errors such as IO etc. from storage.py
 
 ## slices
