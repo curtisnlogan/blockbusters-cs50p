@@ -27,7 +27,11 @@ def handle(data: dict) -> dict:
             continue
         if selection == "1":
             game_records = data["game_records"]
-            cli.view_game_records(game_records)
+            # awaits user input to return to the main menu after viewing game records
+            while True:
+                return_menu = cli.view_game_records(game_records)
+                if return_menu:
+                    break
         if selection == "2":
             members = data["members"]
             cli.view_members(members)
