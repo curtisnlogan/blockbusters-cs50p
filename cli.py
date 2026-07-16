@@ -67,13 +67,13 @@ def view_game_records(game_records: dict):
     table.add_column("Replacement Cost", justify="right")
 
     # build rows
-    for game in game_records:
+    for key, game in game_records.items():
         table.add_row(
-            game["game_id"],
+            key,
             game["title"],
             game["platform"],
             str(game["total_copies"]),
-            str(game["replacement_cost"]),
+            str(f"${game['replacement_cost']}"),
         )
 
     # end
@@ -93,14 +93,14 @@ def view_members(members: dict):
     table.add_column("Account Status", justify="right")
 
     # build rows from dict
-    for member in members:
+    for key, member in members.items():
         table.add_row(
-            member,
+            key,
             member["full_name"],
-            str(member["is_over_18"]),
+            str(member["is_over_18"]).lower(),
             member["address"],
             member["payment_method"],
-            str(member["account_status"]),
+            str(member["account_status"]).lower(),
         )
 
     # output the table to the console
