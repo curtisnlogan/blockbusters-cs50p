@@ -58,8 +58,12 @@ def handle(data: dict) -> dict:
                     print(e)
                     continue  # Return to the main menu if there's an error
             elif rentals_choice == "3":
-                rentals_paid, member_id = cli.pay_fees(data)
-                process_paid_fees(data, rentals_paid, member_id)
+                try:
+                    rentals_paid, member_id = cli.pay_fees(data)
+                    process_paid_fees(data, rentals_paid, member_id)
+                except (ValueError, KeyError) as e:
+                    print(e)
+                    continue  # Return to the main menu if there's an error
             elif rentals_choice == "4":
                 continue  # Return to the main menu
         if selection == "4":
