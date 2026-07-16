@@ -248,7 +248,7 @@ def pay_fees(data: dict) -> tuple[set[str], str]:
     member_id = Prompt.ask("Enter the Member ID: ")
     if member_id not in data["members"]:
         raise ValueError(
-            f"Error: Invalid member ID {member_id}. Returning to the main menu."
+            f"Error: Invalid Member ID: {member_id}. Returning to the main menu."
         )
 
     # flow: first calculate the total fees, if any, owned by the member.
