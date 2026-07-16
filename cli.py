@@ -94,7 +94,7 @@ def view_members(members: dict):
     # build rows from dict
     for member in members:
         table.add_row(
-            member["member_id"],
+            member,
             member["full_name"],
             str(member["is_over_18"]),
             member["address"],
