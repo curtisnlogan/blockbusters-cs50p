@@ -1,39 +1,42 @@
 from datetime import date
+from decimal import Decimal
 
-def reconcile(data: dict, target: str, today: date) -> dict:
+
+def reconcile(data: dict, today: date = date.today(), target: str = "rentals") -> dict:
     """
-    Perform startup reconciliation on the the in-memory data dictionary. 
+    Perform startup reconciliation on the the in-memory data dictionary in project.py.
     This function checks 'rented' games for late fees and replacement fees, and updates the data accordingly.
     It returns the reconciled data dictionary.
     """
 
-    # dict comprhensions for 0(1) lookups of members and games by their IDs
-    members_by_id = {member["member_id"]: member for member in data["members"]}
-    games_by_id = {game["game_id"]: game for game in data["game_records"]}
+    for value in data[target].values():
+        # check if the rental status is 'rented' to determine if its a valid target for reconciliation
+        if value["return_status"] == "rented":
+            # convert from str to date obj for comparison
+            due_date_obj = date.fromisoformat(value["due_for_return"])
 
-    for record, details in data[target].items():
-            # check if the rental status is 'rented' to determine if we need to perform reconciliation
-            if record["rental_status"] == "rented":
+            # get timedelta for diff between both dates
+            days_overdue = today - due_date_obj
 
-                # convert from str to date obj for comparison
-                due_date_obj = date.fromisoformat(record["due_for_return"])
-
-                # get diff between both dates
-                days_overdue = today - due_date_obj
-
-                # if under 14 days overdue, add $1 dollar to late fee total per day overdue and 
-                # block the associated member's account
-                if days_overdue.days < 14:
-                     record["late_fees_total"] = 0
-                     record["late_fees_total"] += days_overdue.days
-                     # block associated member's account
-                     members_by_id[record["member_id"]]["account_blocked"] = True
-                # if 14 days or more overdue, mark the rental as lost, 
-                # set the replacement charge to False, and decrement the total copies of the game by 1
-                else:
-                     record.update({"replacement_charge": False, "late_fees_total": 0, "return_status": "lost"})
-                     game_id = record["game_id"]
-                     games_by_id[game_id]["total_copies"] -= 1
-                     members_by_id[record["member_id"]]["account_blocked"] = True
+            # if under 14 days overdue but not under 0, add $1 dollar to late fee total per day overdue and
+            # block the associated member's account
+            if days_overdue.days < 14 and days_overdue.days > 0:
+                value["late_fees_total"] = Decimal(value["late_fees_total"]) + Decimal(days_overdue.days)
+                member_id = value["membership_id"]
+                data["members"][member_id]["account_status"] = "true"
+            # if 14 days or more overdue, mark the rental as lost,
+            # set the replacement charge to "false", and decrement the total copies of the game by 1
+            else:
+                value.update(
+                    {
+                        "replacement_charge": "false",
+                        "late_fees_total": 0.0,
+                        "return_status": "lost",
+                    }
+                )
+                game_id = value["game_id"]
+                data["game_records"][game_id]["total_copies"] -= 1
+                member_id = value["membership_id"]
+                data["members"][member_id]["account_status"] = "true"
 
     return data

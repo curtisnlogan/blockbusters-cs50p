@@ -15,11 +15,10 @@ def main_menu() -> str:
     """
     while True:
         console.print(
-            "\nWelcome to the Blockbusters CLI! All data has been successfully loaded into memory."
+            "\nWelcome to the Blockbusters Rentals Management System! All data has been successfully loaded into memory. "
             "Please select an option from the menu below:"
         )
-        console.print("\nMain Menu:")
-        console.print("1. View Game Records")
+        console.print("\n1. View Game Records")
         console.print("2. View Members")
         console.print("3. Rentals Management")
         console.print("4. Exit the Program and Save Changes")
@@ -32,10 +31,10 @@ def main_menu() -> str:
             console.print("You selected Game Records.")
             return main_choice
         elif main_choice == "2":
-            console.print("You selected Members.")
+            console.print("\nYou selected Members.\n")
             return main_choice
         elif main_choice == "3":
-            console.print("You selected Rentals.")
+            console.print("\nYou selected Rent Games, Return Games, or Pay Fees.\n")
             return main_choice
         elif main_choice == "4":
             confirm_exit = Confirm.ask("Are you sure you want to exit? y/n only")
@@ -53,7 +52,7 @@ def success_message(message: str):
     console.print(f"\n[bold green]Success:[/bold green] {message}\n")
 
 
-def view_game_records(game_records: dict):
+def view_game_records(game_records: dict) -> bool:
 
     # create a table to display game records
     table = Table(title="Game Records")
@@ -66,17 +65,22 @@ def view_game_records(game_records: dict):
     table.add_column("Replacement Cost", justify="right")
 
     # build rows
-    for game in game_records:
+    for key, game in game_records.items():
         table.add_row(
-            game["game_id"],
+            key,
             game["title"],
             game["platform"],
             str(game["total_copies"]),
-            str(game["replacement_cost"]),
+            str(f"${game['replacement_cost']}"),
         )
 
-    # end
     console.print(table)
+
+    return_menu = Prompt.ask("\nPress Enter to return to the main menu...")
+    if return_menu == "":
+        return True
+    else:
+        return False
 
 
 def view_members(members: dict):
@@ -92,14 +96,14 @@ def view_members(members: dict):
     table.add_column("Account Status", justify="right")
 
     # build rows from dict
-    for member in members:
+    for key, member in members.items():
         table.add_row(
-            member["member_id"],
+            key,
             member["full_name"],
-            str(member["is_over_18"]),
+            str(member["is_over_18"]).lower(),
             member["address"],
             member["payment_method"],
-            str(member["account_status"]),
+            str(member["account_status"]).lower(),
         )
 
     # output the table to the console
@@ -167,16 +171,16 @@ def rent_games(data: dict) -> tuple:
     # check if the member's account is blocked
     if data["members"][member_id]["account_status"] != str(True).lower():
         raise ValueError(
-            f"{member_id} has a blocked account. "
-            f"Inform the customer that this can be "
-            f"rectified through paying all late fees, "
-            f"along with any replacement charges."
+            f"{data['members'][member_id]['name']} has a blocked account. "
+            "Inform the customer that this can be "
+            "rectified through paying all late fees, "
+            "along with any replacement charges."
         )
 
     for game_id in game_ids:
         if data["game_records"][game_id]["total_copies"] <= 0:
             raise ValueError(
-                f"Game ID: {game_id} is currently out of stock. "
+                f"Game ID: {data['game_records'][game_id]['title']} is currently out of stock. "
                 "Politely inform the customer and apologize for the inconvenience. "
                 "Suggest they check back later or consider renting a different game."
             )
@@ -184,7 +188,7 @@ def rent_games(data: dict) -> tuple:
     console.print(
         f"Read to the customer: For each day the game is late, a flat fee of $1 will be charged. "
         f"If the game is returned more than 14 days late, "
-        f"the member will be charged a flat fee of ${data['game_records']['replacement_cost']} "
+        f"the member will be charged a flat fee of ${data['game_records'][game_ids[0]]['replacement_cost']} "
         f"for the replacement cost of the game."
     )
 

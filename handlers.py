@@ -15,7 +15,8 @@ def handle(data: dict) -> dict:
     # The 'today' parameter is set to the current date for accurate reconciliation.
     # It should also pass today as a parameter to class modules that require it for their own logic,
     # ensuring a consistent date reference across the application.
-    data = startup_reconciliation.reconcile(data, target="rentals", today=date.today())
+    today = date.today()
+    data = startup_reconciliation.reconcile(data, today, target="rentals")
 
     # call cli main_menu function to allow for data mutation from the user
     while True:
@@ -26,7 +27,11 @@ def handle(data: dict) -> dict:
             continue
         if selection == "1":
             game_records = data["game_records"]
-            cli.view_game_records(game_records)
+            # awaits user input to return to the main menu after viewing game records
+            while True:
+                return_menu = cli.view_game_records(game_records)
+                if return_menu:
+                    break
         if selection == "2":
             members = data["members"]
             cli.view_members(members)
