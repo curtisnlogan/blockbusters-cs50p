@@ -2,7 +2,7 @@ from datetime import date
 from decimal import Decimal
 
 
-def reconcile(data: dict, target: str, today: date) -> dict:
+def reconcile(data: dict, today: date = date.today(), target: str = "rentals") -> dict:
     """
     Perform startup reconciliation on the the in-memory data dictionary in project.py.
     This function checks 'rented' games for late fees and replacement fees, and updates the data accordingly.
