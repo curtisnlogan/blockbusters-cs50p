@@ -1,4 +1,5 @@
 from rich.console import Console
+from rich.prompt import Prompt
 from rich.table import Table
 
 # Rich's main output object
@@ -53,7 +54,7 @@ def success_message(message: str):
     console.print(f"\n[bold green]Success:[/bold green] {message}\n")
 
 
-def view_game_records(game_records: dict):
+def view_game_records(game_records: dict) -> bool:
 
     # create a table to display game records
     table = Table(title="Game Records")
@@ -75,8 +76,13 @@ def view_game_records(game_records: dict):
             str(f"${game['replacement_cost']}"),
         )
 
-    # end
     console.print(table)
+
+    return_menu = Prompt.ask("\nPress Enter to return to the main menu...")
+    if return_menu == "":
+        return True
+    else:
+        return False
 
 
 def view_members(members: dict):
