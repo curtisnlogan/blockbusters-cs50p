@@ -18,18 +18,25 @@ def reconcile(data: dict, today: date = date.today(), target: str = "rentals") -
             # get timedelta for diff between both dates
             days_overdue = today - due_date_obj
 
-                # if under 14 days overdue, add $1 dollar to late fee total per day overdue and 
-                # block the associated member's account
+            # if under 14 days overdue but not under 0, add $1 dollar to late fee total per day overdue and
+            # block the associated member's account
             if days_overdue.days < 14 and days_overdue.days > 0:
                 value["late_fees_total"] = Decimal(value["late_fees_total"]) + Decimal(days_overdue.days)
                 member_id = value["membership_id"]
                 data["members"][member_id]["account_status"] = "true"
             # if 14 days or more overdue, mark the rental as lost,
             # set the replacement charge to "false", and decrement the total copies of the game by 1
-                else:
-                     record.update({"replacement_charge": False, "late_fees_total": 0, "return_status": "lost"})
-                     game_id = record["game_id"]
-                     games_by_id[game_id]["total_copies"] -= 1
-                     members_by_id[record["member_id"]]["account_blocked"] = True
+            else:
+                value.update(
+                    {
+                        "replacement_charge": "false",
+                        "late_fees_total": 0.0,
+                        "return_status": "lost",
+                    }
+                )
+                game_id = value["game_id"]
+                data["game_records"][game_id]["total_copies"] -= 1
+                member_id = value["membership_id"]
+                data["members"][member_id]["account_status"] = "true"
 
     return data
