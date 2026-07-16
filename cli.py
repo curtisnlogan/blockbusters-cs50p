@@ -1,3 +1,4 @@
+from decimal import Decimal
 from rich.console import Console
 from rich.prompt import Confirm, Prompt
 from rich.table import Table
@@ -231,11 +232,47 @@ def return_games(data: dict) -> list:
     return rental_ids
 
 
-def pay_fees(data: dict) -> str:
-    # Implement the logic for paying fees here
-    member_id = input("Enter the Members ID: ").strip().lower()
-    # check if valid member id
+def pay_fees(data: dict) -> set:
+    """
+    Prompts the user for a Member ID, validates it, and calculates the total fees owed by that member.
+    All fees owed by the member are calculated across all rental logs linked to the member.
+    If fees are owed, prompts the user to confirm payment.
+    If confirmed, returns a set of rental IDs for which fees have been paid.
+    If not confirmed, returns an empty set.
+    """
+
+    member_id = Prompt.ask("Enter the Member ID: ")
     if member_id not in data["members"]:
         raise ValueError(
-            f"Error: Invalid member ID {member_id}. Please check your input and try again."
+            f"Error: Invalid member ID {member_id}. Returning to the main menu."
         )
+
+    # flow: first calculate the total fees, if any, owned by the member.
+    # If there are fees, prompt the user to confirm payment (only paying in full is allowed).
+    # If confirmed, `handlers.py` updates the relevant parts of the in-memory store, to reflect the payment.
+    # If not confirmed, return to the main menu without making any changes.
+
+    # Use set on rental_id to avoid duplicate rental_ids being added in loop
+    rental_ids = set()
+    # Decimal precise for financial calculations
+    total_owed = Decimal("0.0")
+    for rental_id, rental in data["rentals"].items():
+        if rental["membership_id"] == member_id:
+            # assign converted float to variable using walrus syntax
+            if (n := Decimal(str(rental["late_fees_total"]))) > 0.0:
+                total_owed += n
+                rental_ids.add(rental_id)
+            if str(rental["replacement_charge"]) == "true":
+                total_owed += Decimal("40.0")
+                rental_ids.add(rental_id)
+
+    if total_owed > Decimal("0.0"):
+        confirm_payment = Confirm.ask(
+            f"Inform the customer that they owe ${total_owed}."
+            "If the amount due is paid in full, confirm with 'y', otherwise 'n'"
+        )
+
+    if confirm_payment:
+        return rental_ids
+    else:
+        return set()
