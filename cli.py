@@ -13,14 +13,13 @@ def main_menu() -> str:
     """
     while True:
         console.print(
-            "\nWelcome to the Blockbusters CLI! All data has been successfully loaded into memory."
+            "\nWelcome to the Blockbusters Rentals Management System! All data has been successfully loaded into memory. "
             "Please select an option from the menu below:"
         )
-        console.print("\nMain Menu:")
-        console.print("1. View Game Records")
+        console.print("\n1. View Game Records")
         console.print("2. View Members")
-        console.print("3. Rentals Management")
-        console.print("4. Exit the Program and Save Changes")
+        console.print("3. Rent Games, Return Games, or Pay Fees")
+        console.print("4. Save Changes and Exit\n")
 
         main_choice = input("Enter your choice (1–4): ")
         if main_choice not in ["1", "2", "3", "4"]:
@@ -28,13 +27,13 @@ def main_menu() -> str:
                 "Invalid choice. Please enter a number exactly between 1 and 4."
             )
         elif main_choice == "1":
-            console.print("You selected Game Records.")
+            console.print("\nYou selected Game Records.\n")
             return main_choice
         elif main_choice == "2":
-            console.print("You selected Members.")
+            console.print("\nYou selected Members.\n")
             return main_choice
         elif main_choice == "3":
-            console.print("You selected Rentals.")
+            console.print("\nYou selected Rent Games, Return Games, or Pay Fees.\n")
             return main_choice
         elif main_choice == "4":
             confirm_exit = (
