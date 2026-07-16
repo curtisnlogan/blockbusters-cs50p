@@ -251,12 +251,7 @@ def pay_fees(data: dict) -> tuple[set[str], str]:
             f"Error: Invalid Member ID: {member_id}. Returning to the main menu."
         )
 
-    # flow: first calculate the total fees, if any, owned by the member.
-    # If there are fees, prompt the user to confirm payment (only paying in full is allowed).
-    # If confirmed, `handlers.py` updates the relevant parts of the in-memory store, to reflect the payment.
-    # If not confirmed, return to the main menu without making any changes.
-
-    # Use set on rental_id to avoid duplicate rental_ids being added in loop
+    # Uses set on rental_ids to avoid duplicate rental_ids being added
     rental_ids = set()
     # Decimal precise for financial calculations
     total_owed = Decimal("0.0")
