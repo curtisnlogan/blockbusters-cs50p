@@ -265,13 +265,18 @@ def pay_fees(data: dict) -> tuple[set[str], str]:
                 total_owed += fee
                 rental_ids.add(rental_id)
 
-    if total_owed > Decimal("0.0"):
-        confirm_payment = Confirm.ask(
-            f"Inform the customer that they owe ${total_owed}."
-            "If the amount due is paid in full, confirm with 'y', otherwise 'n'"
+    if total_owed <= Decimal("0.0"):
+        raise ValueError(
+            f"\nMember {data['members'][member_id]['full_name']} has no fees owed. Inform him of this verbally.\n"
+            "Returning to the main menu."
         )
-
-    if confirm_payment:
-        return rental_ids, member_id
     else:
-        return set(), ""
+        confirm_payment = Confirm.ask(
+            f"Inform the customer that they owe ${total_owed}. "
+            "If the amount due is paid in full, confirm with 'y', otherwise 'n'",
+            choices=["y", "n"],
+        )
+        if confirm_payment:
+            return rental_ids, member_id
+        else:
+            return (set(), "")
