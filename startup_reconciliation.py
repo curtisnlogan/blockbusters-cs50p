@@ -9,16 +9,11 @@ def reconcile(data: dict, today: date = date.today(), target: str = "rentals") -
     It returns the reconciled data dictionary.
     """
 
-    # dict comprhensions for 0(1) lookups of members and games by their IDs
-    members_by_id = {member["member_id"]: member for member in data["members"]}
-    games_by_id = {game["game_id"]: game for game in data["game_records"]}
-
-    for record, details in data[target].items():
-            # check if the rental status is 'rented' to determine if we need to perform reconciliation
-            if record["rental_status"] == "rented":
-
-                # convert from str to date obj for comparison
-                due_date_obj = date.fromisoformat(record["due_for_return"])
+    for value in data[target].values():
+        # check if the rental status is 'rented' to determine if its a valid target for reconciliation
+        if value["return_status"] == "rented":
+            # convert from str to date obj for comparison
+            due_date_obj = date.fromisoformat(value["due_for_return"])
 
             # get timedelta for diff between both dates
             days_overdue = today - due_date_obj
