@@ -245,7 +245,7 @@ def pay_fees(data: dict) -> tuple[set[str], str]:
     If not confirmed, returns an empty set.
     """
 
-    member_id = Prompt.ask("Enter the Member ID: ")
+    member_id = Prompt.ask("\nEnter the Member ID: ")
     if member_id not in data["members"]:
         raise ValueError(
             f"Error: Invalid Member ID: {member_id}. Returning to the main menu."
