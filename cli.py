@@ -236,7 +236,7 @@ def return_games(data: dict) -> list:
     return rental_ids
 
 
-def pay_fees(data: dict) -> tuple[set, str]:
+def pay_fees(data: dict) -> tuple[set[str], str]:
     """
     Prompts the user for a Member ID, validates it, and calculates the total fees owed by that member.
     All fees owed by the member are calculated across all rental logs linked to the member.
