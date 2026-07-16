@@ -55,7 +55,7 @@ def handle(data: dict) -> dict:
                 returned_games = cli.return_games(data)
                 process_returned_games(data, returned_games)
             elif rentals_choice == "3":
-                cli.pay_fees(data["rentals"])
+                cli.pay_fees(data)
             elif rentals_choice == "4":
                 continue  # Return to the main menu
         if selection == "4":
