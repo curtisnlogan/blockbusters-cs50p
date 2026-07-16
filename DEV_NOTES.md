@@ -166,7 +166,6 @@
 - The exit option asks for confirmation, then either closes the program or returns to the main menu if cancelled
 - Rentals will have a sub-menu of actions that can be performed if selected
 - If the user has decided to close the program, it is expected that that the JSON stores now represent the in-memory states which were present before exiting
-<!-- TODO -->
 - If the user selects operations in `cli.py` that alter in-memory dicts, the subsequent methods are called by `handlers.py` and displays success messages back through `cli.py`
 - `project.py` should handle all high level errors such as IO etc. from storage.py
 
@@ -234,12 +233,11 @@
 ### pay charges
 - an employee selects the option to pay a member's outstanding charges
   - employee enters a `membership_id`
-  - `handlers.py` validates input
   - rejects invalid `membership_id`
-  <!-- TODO -->
   - rejects if no outstanding late fees or replacement charges exist
-  - if checks pass, `handlers.py` calculates the full amount owed across all linked rental logs
-    - once payment by member is confirmed, `handlers.py` updates all linked rental logs to reflect that the charges have been paid
+  - if checks pass, `cli.py` calculates the amount owed across all rental logs
+  <!-- TODO -->
+  - once payment by member is confirmed by employee, `cli.py` returns a set of rental_ids that are to have fees nullified, `handlers.py` referencing this set, mutates the in-memory store to reflect this
       - for rental logs where only late fees were owed, set `return_status` to `returned`
       - for rental logs where a replacement charge was owed, `return_status` remains `lost`
       - unblock the member's account
