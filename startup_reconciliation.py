@@ -1,8 +1,10 @@
 from datetime import date
+from decimal import Decimal
+
 
 def reconcile(data: dict, target: str, today: date) -> dict:
     """
-    Perform startup reconciliation on the the in-memory data dictionary. 
+    Perform startup reconciliation on the the in-memory data dictionary in project.py.
     This function checks 'rented' games for late fees and replacement fees, and updates the data accordingly.
     It returns the reconciled data dictionary.
     """
@@ -18,8 +20,8 @@ def reconcile(data: dict, target: str, today: date) -> dict:
                 # convert from str to date obj for comparison
                 due_date_obj = date.fromisoformat(record["due_for_return"])
 
-                # get diff between both dates
-                days_overdue = today - due_date_obj
+            # get timedelta for diff between both dates
+            days_overdue = today - due_date_obj
 
                 # if under 14 days overdue, add $1 dollar to late fee total per day overdue and 
                 # block the associated member's account
