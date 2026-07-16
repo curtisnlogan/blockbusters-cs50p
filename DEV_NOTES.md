@@ -160,7 +160,7 @@
 - `project.py` calls `handlers.py` immediately
 - `handlers.py` should always call `startup_reconciliation.py` first, to apply any necessary changes to in-memory dicts
 - `handlers.py` then calls `cli.py`, which makes the terminal main menu available to the end-user
-- `handlers.py` then passes only the appropriate shared in-memory collection into each class module, if called 
+- `handlers.py` then passes only the appropriate shared in-memory collection into each class module, if called
 - `cli.py` should first note that all data has been loaded successfully and that the system is fully-operational
 - the user is presented with 4 main options, game records, memberships, rental records, and exit
 - The exit option asks for confirmation, then either closes the program or returns to the main menu if cancelled
@@ -193,6 +193,7 @@
 ### user story flows
 
 #### startup
+
 - `project.py` loads prepopulated JSON stores through `storage.py`
 - `project.py` calls `handlers.py` with data from `storage.py` as arg
 - `handlers.py` calls `startup_reconciliation.py`
@@ -203,16 +204,19 @@
   - else if overdue but under 14 days, recalculate `late_fees_total` at $1 per day overdue and block the associated member's account
 
 ### view game inventory
+
 - employee selects to view the current games inventory
   - display all available game records and associated values through the rich library in the CLI
   - should allow the user to go back to the main menu at any point
 
 ### view members
+
 - an employee selections the option to view the current list of members
-  - display all available  and associated values through the rich library in the CLI
+  - display all available and associated values through the rich library in the CLI
   - should allow the user to go back to the main menu at any point
 
 ### rent games
+
 - an employee selects the option to rent games to a customer
   - employee enters a membership id and a game id value for each separate rental
   - employee informs the potential renter of late fees and replacement charge business rules
@@ -225,6 +229,7 @@
   - if checks pass, `handlers.py` generates a new rental log for each game, decrements `total_copies` by `1` on the corresponding game record, and adds the new entry to the in-memory store
 
 ### return games
+
 - an employee enters into the cli a rental id that is provided by the customer
   - `handler.py` validates input
   - rejects invalid game ids
@@ -234,15 +239,14 @@
 
 - an employee selects the option to pay a member's outstanding charges
   - employee enters a `membership_id`
-  - `handlers.py` validates input
-    - rejects invalid `membership_id`
-    - rejects if no outstanding late fees or replacement charges exist
-  - if checks pass, `handlers.py` calculates the full amount owed across all linked rental logs
-    - resets all `late_fees_total` values to `0.0`
-    - resets all `replacement_charge` values to `false`
+  - rejects invalid `membership_id`
+  - rejects if no outstanding late fees or replacement charges exist
+  - if checks pass, `cli.py` calculates the amount owed across all rental logs
+    <!-- TODO -->
+  - once payment by member is confirmed by employee, `cli.py` returns a set of rental_ids that are to have fees nullified, `handlers.py` referencing this set, mutates the in-memory store to reflect this
     - for rental logs where only late fees were owed, set `return_status` to `returned`
     - for rental logs where a replacement charge was owed, `return_status` remains `lost`
-    - unblocks the member account
+    - unblock the member's account
 
 ### user friendly
 
