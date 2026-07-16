@@ -261,6 +261,9 @@ def pay_fees(data: dict) -> tuple[set[str], str]:
             if str(rental["replacement_charge"]).lower() == "true":
                 total_owed += Decimal("40.0")
                 rental_ids.add(rental_id)
+            elif (fee := Decimal(str(rental["late_fees_total"]))) > Decimal("0.0"):
+                total_owed += fee
+                rental_ids.add(rental_id)
 
     if total_owed > Decimal("0.0"):
         confirm_payment = Confirm.ask(
