@@ -1,4 +1,5 @@
 from rich.console import Console
+from rich.prompt import Confirm, Prompt
 from rich.table import Table
 
 # Rich's main output object
@@ -21,13 +22,12 @@ def main_menu() -> str:
         console.print("2. View Members")
         console.print("3. Rentals Management")
         console.print("4. Exit the Program and Save Changes")
+        # rich simplifies input handling and validation, providing a more user-friendly experience
+        main_choice = Prompt.ask(
+            "Enter your choice (1–4): ", choices=["1", "2", "3", "4"], default="4"
+        )
 
-        main_choice = input("Enter your choice (1–4): ")
-        if main_choice not in ["1", "2", "3", "4"]:
-            raise ValueError(
-                "Invalid choice. Please enter a number exactly between 1 and 4."
-            )
-        elif main_choice == "1":
+        if main_choice == "1":
             console.print("You selected Game Records.")
             return main_choice
         elif main_choice == "2":
@@ -37,14 +37,13 @@ def main_menu() -> str:
             console.print("You selected Rentals.")
             return main_choice
         elif main_choice == "4":
-            confirm_exit = (
-                input("Are you sure you want to exit? (y/n): ").strip().lower()
-            )
-            if confirm_exit == "y":
+            confirm_exit = Confirm.ask("Are you sure you want to exit? y/n only")
+            if confirm_exit:
                 console.print("Exiting the program and saving changes.")
                 return main_choice
             else:
                 continue  # Return to the main menu if the user does not confirm exit
+
 
 def success_message(message: str):
     """
@@ -118,7 +117,9 @@ def rentals_management() -> str:
         console.print("3. Pay Fees")
         console.print("4. Back to Main Menu\n")
 
-        rentals_choice = input("Enter your choice (1-4): ").strip()
+        rentals_choice = Prompt.ask(
+            "Enter your choice (1–4): ", choices=["1", "2", "3", "4"], default="4"
+        )
         if rentals_choice not in ["1", "2", "3", "4"]:
             raise ValueError(
                 "Invalid choice. Please enter a number exactly between 1 and 4."
@@ -133,12 +134,10 @@ def rentals_management() -> str:
             console.print("You selected Pay Fees.")
             return rentals_choice
         elif rentals_choice == "4":
-            confirm_exit = (
-                input("Are you sure you want to go back to the main menu? (y/n): ")
-                .strip()
-                .lower()
+            confirm_exit = Confirm.ask(
+                "Are you sure you want to go back to the main menu? y/n only"
             )
-            if confirm_exit == "y":
+            if confirm_exit:
                 console.print("Returning to the main menu.")
                 return rentals_choice
             else:
@@ -151,22 +150,17 @@ def rent_games(data: dict) -> tuple:
     Validates the inputs and checks for account status and game availability.
     Returns a tuple containing the list of Game IDs and the Member ID."""
     while True:
-        game_ids = (
-            input("Enter the Game IDs that are to be rented, separated by '/' only: ")
-            .strip()
-            .lower()
-            .split("/")
-        )
-        member_id = input("Enter the Members ID: ").strip().lower()
+        game_ids = Prompt.ask(
+            "Enter the Game IDs that are to be rented, separated by '/' only: "
+        ).split("/")
+        member_id = Prompt.ask("Enter the Member ID: ")
         # check if valid member id
         if member_id not in data["members"]:
-            raise ValueError(
-                f"Error: Invalid {member_id}. Please check your input and try again."
-            )
+            raise ValueError(f"Error: Invalid {member_id}. Returning to the main menu.")
         # check if all game IDs are valid
         if not all(g_id in data["game_records"] for g_id in game_ids):
             raise ValueError(
-                "Error: One or more Game IDs are invalid. Please check your input and try again."
+                "Error: One or more Game IDs are invalid. Returning to the main menu."
             )
         break  # Exit the loop if both IDs are valid
     # check if the member's account is blocked
@@ -194,14 +188,10 @@ def rent_games(data: dict) -> tuple:
     )
 
     while True:
-        confirm_read = (
-            input(
-                "Do you confirm that the member has read and agreed to this? Enter 'y' to confirm"
-            )
-            .strip()
-            .lower()
+        confirm_read = Confirm.ask(
+            "Do you confirm that the member has read and agreed to this? Enter 'y' to confirm and 'n' to cancel the rental(s)."
         )
-        if confirm_read == "y":
+        if confirm_read:
             break
         else:
             raise ValueError(
@@ -220,19 +210,14 @@ def return_games(data: dict) -> list:
     Returns a list of validated rental IDs.
     """
     while True:
-        rental_ids = (
-            input(
-                "Enter the Rental IDs that are to be returned, separated by '/' only: "
-            )
-            .strip()
-            .lower()
-            .split("/")
-        )
+        rental_ids = Prompt.ask(
+            "Enter the Rental IDs that are to be returned, separated by '/' only: "
+        ).split("/")
 
         # check if all rental IDs are valid
         if not all(r_id in data["rentals"] for r_id in rental_ids):
             raise ValueError(
-                "Error: One or more Rental IDs are invalid. Please check your input and try again."
+                "Error: One or more Rental IDs are invalid. Returning to the main menu."
             )
         break  # Exit the loop if rental IDs are valid
 
