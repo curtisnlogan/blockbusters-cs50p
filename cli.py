@@ -46,6 +46,7 @@ def main_menu() -> str:
             else:
                 continue  # Return to the main menu if the user does not confirm exit
 
+
 def success_message(message: str):
     """
     Displays a success message to the user.
@@ -157,7 +158,7 @@ def rent_games(data: dict) -> tuple:
             .lower()
             .split("/")
         )
-        member_id = input("Enter the Members ID: ").strip().lower()
+        member_id = input("Enter their Member ID: ").strip().lower()
         # check if valid member id
         if member_id not in data["members"]:
             raise ValueError(
@@ -172,16 +173,16 @@ def rent_games(data: dict) -> tuple:
     # check if the member's account is blocked
     if data["members"][member_id]["account_status"] != str(True).lower():
         raise ValueError(
-            f"{member_id} has a blocked account. "
-            f"Inform the customer that this can be "
-            f"rectified through paying all late fees, "
-            f"along with any replacement charges."
+            f"{data['members'][member_id]['name']} has a blocked account. "
+            "Inform the customer that this can be "
+            "rectified through paying all late fees, "
+            "along with any replacement charges."
         )
 
     for game_id in game_ids:
         if data["game_records"][game_id]["total_copies"] <= 0:
             raise ValueError(
-                f"Game ID: {game_id} is currently out of stock. "
+                f"Game ID: {data['game_records'][game_id]['title']} is currently out of stock. "
                 "Politely inform the customer and apologize for the inconvenience. "
                 "Suggest they check back later or consider renting a different game."
             )
