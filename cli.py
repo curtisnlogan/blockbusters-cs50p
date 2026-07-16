@@ -189,7 +189,7 @@ def rent_games(data: dict) -> tuple:
     console.print(
         f"Read to the customer: For each day the game is late, a flat fee of $1 will be charged. "
         f"If the game is returned more than 14 days late, "
-        f"the member will be charged a flat fee of ${data['game_records']['replacement_cost']} "
+        f"the member will be charged a flat fee of ${data['game_records'][game_ids[0]]['replacement_cost']} "
         f"for the replacement cost of the game."
     )
 
