@@ -236,14 +236,12 @@
   - rejects invalid `membership_id`
   - rejects if no outstanding late fees or replacement charges exist
   - if checks pass, `cli.py` calculates the amount owed across all rental logs
-  <!-- TODO -->
-  - once payment by member is confirmed by employee, `cli.py` returns a set of rental_ids that are to have fees nullified, `handlers.py` referencing this set, mutates the in-memory store to reflect this
+  - once payment by member is confirmed by employee, `cli.py` returns a set of rental_ids, `handlers.py` referencing this set, mutates the in-memory store to reflect the payment
       - for rental logs where only late fees were owed, set `return_status` to `returned`
-      - for rental logs where a replacement charge was owed, `return_status` remains `lost`
       - unblock the member's account
 
 ### user friendly
-
+  <!-- TODO -->
 - rich library is used to improve the CLI presentation
   - tables are used to display game inventory and member records
   - clear instructions are provided for each action
