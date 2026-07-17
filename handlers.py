@@ -120,8 +120,8 @@ def process_returned_games(data: dict, returned_games: list) -> None:
 
 def process_paid_fees(data: dict, rentals_paid: set, member_id: str) -> None:
     for rental in rentals_paid:
-        if data["rentals"][rental]["replacement_charge"] == "true":
-            data["rentals"][rental]["return_status"] = "false"
+        if data["rentals"][rental]["replacement_charge"]:
+            data["rentals"][rental]["replacement_charge"] = False
             data["members"][member_id]["account_status"] = True
         else:
             data["rentals"][rental]["return_status"] = "returned"
