@@ -57,10 +57,16 @@ def handle(data: dict) -> dict:
                 except (ValueError, KeyError) as e:
                     print(e)
                     continue  # Return to the main menu if there's an error
-                returned_games = cli.return_games(data)
-                process_returned_games(data, returned_games)
             elif rentals_choice == "3":
-                cli.pay_fees(data)
+                try:
+                    rentals_paid, member_id = cli.pay_fees(data)
+                    if rentals_paid:
+                        process_paid_fees(data, rentals_paid, member_id)
+                    else:
+                        continue  # Return to the main menu if no rentals were paid
+                except (ValueError, KeyError) as e:
+                    print(e)
+                    continue  # Return to the main menu if there's an error
             elif rentals_choice == "4":
                 continue  # Return to the main menu
         if selection == "4":
@@ -113,3 +119,18 @@ def process_returned_games(data: dict, returned_games: list) -> None:
         data["game_records"][game_id]["total_copies"] += 1
 
     cli.success_message("The rental(s) have been officially returned in the system.")
+
+
+def process_paid_fees(data: dict, rentals_paid: set, member_id: str) -> None:
+    for rental in rentals_paid:
+        if data["rentals"][rental]["replacement_charge"]:
+            data["rentals"][rental]["replacement_charge"] = False
+            data["members"][member_id]["account_status"] = True
+        else:
+            data["rentals"][rental]["late_fees_total"] = 0.0
+            data["rentals"][rental]["return_status"] = "returned"
+            data["members"][member_id]["account_status"] = True
+
+    cli.success_message(
+        f"Member {data['members'][member_id]['full_name']}'s account has been updated to reflect the payment of fees."
+    )

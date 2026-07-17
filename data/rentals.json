@@ -67,7 +67,7 @@
         "game_id": "632c35e1-ff5a-41d9-893e-65164ab5087b",
         "date_rented": "2026-07-01",
         "due_for_return": "2026-07-08",
-        "late_fees_total": 0.0,
+        "late_fees_total": 20.0,
         "replacement_charge": false,
         "return_status": "rented"
     },
