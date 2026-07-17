@@ -126,3 +126,7 @@ def process_paid_fees(data: dict, rentals_paid: set, member_id: str) -> None:
         else:
             data["rentals"][rental]["return_status"] = "returned"
             data["members"][member_id]["account_status"] = True
+
+    cli.success_message(
+        f"Member {data['members'][member_id]['full_name']}'s account has been updated to reflect the payment of fees."
+    )
