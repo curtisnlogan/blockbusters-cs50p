@@ -16,7 +16,7 @@ def main():
     }
 
     try:
-        in_memory_storage: dict = storage.load_jsons(**storage_dict)
+        in_memory_storage: dict = storage.load_json(**storage_dict)
     except (json.JSONDecodeError, OSError) as e:
         sys.exit(f"Error: {e}")
 
@@ -27,7 +27,7 @@ def main():
         sys.exit(f"Error: {e}")
     # a production version would save more frequently (even atomically), but for this project, we will save at the end of the program
     try:
-        storage.save_jsons(**in_memory_storage)
+        storage.save_json(**in_memory_storage)
     except (TypeError, OSError, json.JSONDecodeError) as e:
         sys.exit(f"Error: {e}")
 
