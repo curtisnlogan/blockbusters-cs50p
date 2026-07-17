@@ -242,7 +242,7 @@ def pay_fees(data: dict) -> tuple[set[str], str]:
     All fees owed by the member are calculated across all rental logs linked to the member.
     If fees are owed, prompts the user to confirm payment.
     If confirmed, returns a set of rental IDs for which fees have been paid and a string of the member ID.
-    If not confirmed, returns an empty set.
+    If not confirmed, returns a tuple containing an empty set and member id.
     """
 
     member_id = Prompt.ask("\nEnter the Member ID")
