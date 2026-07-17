@@ -2,7 +2,7 @@ import json
 import os
 
 
-def load_jsons(**kwargs) -> dict:
+def load_json(**kwargs) -> dict:
     """
     Load data through key-value pairs where the key is the name of the data
     and the value is the path to the json file.
@@ -14,7 +14,7 @@ def load_jsons(**kwargs) -> dict:
     return in_memory_data
 
 
-def save_jsons(**kwargs: dict) -> None:
+def save_json(**kwargs: dict) -> None:
     """
     Save data through key-value pairs where the key is the name of the data
     and the value is the data itself, which must be a Python dict.
