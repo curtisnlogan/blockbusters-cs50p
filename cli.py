@@ -259,8 +259,8 @@ def pay_fees(data: dict) -> tuple[set[str], str]:
         if rental["membership_id"] == member_id:
             # assign converted float to variable using walrus syntax
             if str(rental["replacement_charge"]).lower() == "true":
-                total_owed += Decimal("40.0")
-                rental_ids.add(rental_id)
+                replacement_cost = Decimal(str(data["game_records"][rental["game_id"]]["replacement_cost"]))
+                total_owed += replacement_cost
             elif (fee := Decimal(str(rental["late_fees_total"]))) > Decimal("0.0"):
                 total_owed += fee
                 rental_ids.add(rental_id)
