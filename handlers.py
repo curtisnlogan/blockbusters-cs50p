@@ -127,6 +127,7 @@ def process_paid_fees(data: dict, rentals_paid: set, member_id: str) -> None:
             data["rentals"][rental]["replacement_charge"] = False
             data["members"][member_id]["account_status"] = True
         else:
+            data["rentals"][rental]["late_fees_total"] = 0.0
             data["rentals"][rental]["return_status"] = "returned"
             data["members"][member_id]["account_status"] = True
 
