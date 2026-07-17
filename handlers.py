@@ -60,7 +60,10 @@ def handle(data: dict) -> dict:
             elif rentals_choice == "3":
                 try:
                     rentals_paid, member_id = cli.pay_fees(data)
-                    process_paid_fees(data, rentals_paid, member_id)
+                    if rentals_paid:
+                        process_paid_fees(data, rentals_paid, member_id)
+                    else:
+                        continue  # Return to the main menu if no rentals were paid
                 except (ValueError, KeyError) as e:
                     print(e)
                     continue  # Return to the main menu if there's an error
