@@ -285,4 +285,4 @@ def pay_fees(data: dict) -> tuple[set[str], str]:
                 "Inform him that his account will remain blocked."
                 "\n\nReturning to the main menu."
             )
-            return (set(), "")
+            return (set(), member_id)  # Return an empty set and member id if payment is not confirmed
