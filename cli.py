@@ -245,10 +245,10 @@ def pay_fees(data: dict) -> tuple[set[str], str]:
     If not confirmed, returns an empty set.
     """
 
-    member_id = Prompt.ask("\nEnter the Member ID: ")
+    member_id = Prompt.ask("\nEnter the Member ID")
     if member_id not in data["members"]:
         raise ValueError(
-            f"Error: Invalid Member ID: {member_id}. Returning to the main menu."
+            f"\nError: Invalid Member ID: {member_id}. Returning to the main menu."
         )
 
     # Uses set on rental_ids to avoid duplicate rental_ids being added
@@ -267,16 +267,22 @@ def pay_fees(data: dict) -> tuple[set[str], str]:
 
     if total_owed <= Decimal("0.0"):
         raise ValueError(
-            f"\nMember {data['members'][member_id]['full_name']} has no fees owed. Inform him of this verbally.\n"
-            "Returning to the main menu."
+            f"\nMember {data['members'][member_id]['full_name']} has no fees owed. Inform him of this verbally."
+            "\n\nReturning to the main menu."
         )
     else:
         confirm_payment = Confirm.ask(
-            f"Inform the customer that they owe ${total_owed}. "
-            "If the amount due is paid in full, confirm with 'y', otherwise 'n'",
+            f"\nInform the customer that they owe ${total_owed}. "
+            "If the amount due is paid in full, confirm by entering 'y', otherwise enter 'n'",
             choices=["y", "n"],
+            show_choices=False,
         )
         if confirm_payment:
             return rental_ids, member_id
         else:
+            console.print(
+                f"\nMember {data['members'][member_id]['full_name']} has not paid all of the fees owed. "
+                "Inform him that his account will remain blocked."
+                "\n\nReturning to the main menu."
+            )
             return (set(), "")
