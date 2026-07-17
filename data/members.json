@@ -46,7 +46,7 @@
         "is_over_18": true,
         "address": "3 Harbour View, Cardiff, CF10 5MN",
         "payment_method": "Debit Card",
-        "account_status": true
+        "account_status": false
     },
     "0fb0ae85-bbe3-4d92-af31-2b94e1750a3a": {
         "full_name": "Emma Clarke",
