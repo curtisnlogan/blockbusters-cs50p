@@ -186,7 +186,7 @@
 
 #### pay charges — as an employee, I can process full payment of a member's outstanding fees so their account is unblocked.
 
-#### user friendly - as an employee, I can navigate the CLI, find it visually appealing with clear instructions so I can perform my job effectively.
+#### user friendly interface - as an employee, I can navigate the CLI, with clear instructions so that I can perform my job effectively.
 
 #### exit — as an employee, I can exit the program from the main menu after confirming, so I don't close it accidentally mid-operation.
 
@@ -248,14 +248,13 @@
     - for rental logs where a replacement charge was owed, `return_status` remains `lost`
     - unblock the member's account
 
-### user friendly
+### user friendly interface
 
 - rich library is used to improve the CLI presentation
   - tables are used to display game inventory and member records
   - clear instructions are provided for each action
   - input prompts are clear and concise
   - success and error messages confirm current state of the system after each action
-  - uses rich syntax to add visual appeal to the CLI, e.g. colors, bold text, etc.
 
 ### exit
 
